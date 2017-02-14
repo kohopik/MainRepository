@@ -1,0 +1,19 @@
+﻿@model List<IndieProjects.Model.Project>
+
+<li><a href="~/Account/">Обо мне</a></li>
+<li><a href="~/Account/Notification">Активность</a></li>
+<li><a href="~/Account/MyProjects">Мои проекты</a></li>
+<li><a href="~/Account/ProfileChanges">Редактировать профиль</a></li>
+<div>
+    <a href="~/Project/AddProject/">Создать проект</a>
+    @foreach (var proj in Model)
+    {
+        <div>
+            <label>@proj.Name</label><br />
+            <div>@Html.Raw(proj.Description)</div>
+            <label>@proj.Likes</label>
+            <a href="~/Project/CurrentProjectPage/@proj.ProjectID">Перейти</a>
+        </div><br />
+    }
+</div>
+

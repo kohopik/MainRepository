@@ -1,0 +1,15 @@
+﻿@model IndieProjects.Model.Message
+
+<form id="Message" method="post" asp-controller="Account" asp-action="SendMessage">
+    <h1>Регистрация нового пользователя</h1>
+    <div asp-validation-summary="ModelOnly"></div>
+    <fieldset id="inputs">
+        <input type="hidden" id="Author" asp-for="UserID" placeholder="Автор" value="@ViewBag.Author" />
+        <input type="datetime" id="DateOfSend" asp-for="Getter" placeholder="Получатель" />
+        <input id="Getter" asp-for="Getter" placeholder="Получатель" />
+        <input id="Content" asp-for="Content" placeholder="Содержание" />
+    </fieldset>
+    <fieldset id="actions">
+        <input id="submit" type="submit" value="Отправить" />
+    </fieldset>
+</form>

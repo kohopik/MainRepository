@@ -1,0 +1,58 @@
+﻿@model IndieProjects.Model.Project
+
+<script src="//cdn.quilljs.com/1.2.0/quill.js"></script>
+<script src="//cdn.quilljs.com/1.2.0/quill.min.js"></script>
+
+<!-- Theme included stylesheets -->
+<link href="//cdn.quilljs.com/1.2.0/quill.snow.css" rel="stylesheet">
+<link href="//cdn.quilljs.com/1.2.0/quill.bubble.css" rel="stylesheet">
+
+<!-- Core build with no theme, formatting, non-essential modules -->
+<link href="//cdn.quilljs.com/1.2.0/quill.core.css" rel="stylesheet">
+<script src="//cdn.quilljs.com/1.2.0/quill.core.js"></script>
+<style>
+    #editor{
+        min-height:200px;
+        max-height:400px;
+    }
+</style>
+<form id="Project" method="post" asp-controller="Project" asp-action="AddProject">
+    <h1>Создание проекта</h1>
+        <input id="Avatar" asp-for="Avatar" placeholder="аватар" /><br />
+        <input id="Name" asp-for="Name" placeholder="Название" /><br />
+        <input id="Links" asp-for="Links" placeholder="Ссылки" /><br />
+        <h5>Описание</h5>
+        <div id="toolbar">
+        </div>
+        <div id="editor">
+        </div>
+        <input type="button" id="SaveDelta" value="Сохранить"/>
+        <select id="Status" asp-for="StatusProject" placeholder="Статус проекта">
+            <option>@IndieProjects.Model.ProjectStatus.Active</option>
+            <option>@IndieProjects.Model.ProjectStatus.End</option>
+        </select><br />
+        <input type="hidden" asp-for="Description" id="vasya"/>
+        <input id="submit" type="submit" value="Создать статью" />
+</form>
+<script src="https://cdn.quilljs.com/1.0.0/quill.js"></script>
+<script>
+    var toolbarOptions = [['bold', 'italic', 'underline', 'strike'],
+        ['blockquote', 'code-block'][{ 'header': 1 }, { 'header': 2 }],
+        [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+        [{ 'script': 'sub' }, { 'script': 'super' }],
+        [{ 'direction': 'rtl' }], [{ 'size': ['small', false, 'large', 'huge'] }],
+        ['image'], [{ 'align': [] }], [{ 'font': [] }]];
+
+        var editor = new Quill('#editor', {
+        modules: { toolbar: toolbarOptions },
+        theme: 'snow'
+        });
+
+        $('#SaveDelta').click(function () {
+           @* var delta = editor.container.firstChild.innerHTML; @*editor.getContents();
+            console.log(delta);*@
+            var delta = editor.root.innerHTML;
+            $('#vasya').val(delta);
+            console.log(delta);
+        })
+</script>

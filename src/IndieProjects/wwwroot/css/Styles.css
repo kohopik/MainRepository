@@ -1,0 +1,133 @@
+﻿/* цвет фона и рамки навигационного меню */
+.navbar-default {
+    background-color: #5AC539;
+    border-color: #E7E7E7;
+}
+/* цвет текста, содержащий название сайта или бренда */
+.navbar-default .navbar-brand {
+    color: #777;
+}
+/* цвет текста (название сайта или бренда), при поднесении к нему курсора мышки или при его нахождении в фокусе */
+.navbar-default .navbar-brand:hover,
+.navbar-default .navbar-brand:focus {
+    color: #5E5E5E;
+}
+/* Цвет пунктов навигационного меню */
+.navbar-default .navbar-nav > li > a{
+    color: white;
+    font-weight: bold;
+    font-weight: bold;
+    float: none;
+    text-align:center;
+}
+/* Цвет пункта меню, при поднесении к нему курсора мышки или при его нахождении в фокусе */
+.navbar-default .navbar-nav > li > a:hover,
+.navbar-default .navbar-nav > li > a:focus {
+    color: #333;
+}
+/* Цвет и фон активного пункта меню, а также поднесении к нему курсора мышки или при его нахождении в фокусе */
+.navbar-default .navbar-nav > .active > a, 
+.navbar-default .navbar-nav > .active > a:hover, 
+.navbar-default .navbar-nav > .active > a:focus {
+    color: #555;
+}
+/* Цвет и фон открытого пункта меню, а также поднесении к нему курсора мышки или при его нахождении в фокусе */
+.navbar-default .navbar-nav > .open > a, 
+.navbar-default .navbar-nav > .open > a:hover, 
+.navbar-default .navbar-nav > .open > a:focus {
+    color: #555;
+    background-color: white;
+}
+/* Цвет стрелочки (треугольничка) у раскрывающихся пунктов меню */
+.navbar-default .navbar-nav > .dropdown > a .caret {
+    border-top-color: #777;
+    border-bottom-color: #777;
+}
+/* Цвет стрелочки (треугольничка) при поднесении к нему курсора мышки или при его нахождении в фокусе */
+.navbar-default .navbar-nav > .dropdown > a:hover .caret,
+.navbar-default .navbar-nav > .dropdown > a:focus .caret {
+    border-top-color: #333;
+    border-bottom-color: #333;
+}
+/* Цвет стрелочки (треугольничка), открывшегося пункта меню */
+.navbar-default .navbar-nav > .open > a .caret, 
+.navbar-default .navbar-nav > .open > a:hover .caret, 
+.navbar-default .navbar-nav > .open > a:focus .caret {
+    border-top-color: #555;
+    border-bottom-color: #555;
+}
+/* CSS стили для мобильных устройств */
+/* Цвет рамки у кнопки, которая открывает меню */
+.navbar-default .navbar-toggle {
+    border-color: #DDD;
+}
+/* Цвет фона кнопки (которая открывает меню) при поднесении к ней курсора мышки или при нахождении её в фокусе */
+.navbar-default .navbar-toggle:hover,
+.navbar-default .navbar-toggle:focus {
+    background-color: #DDD;
+}
+/* Цвет полосочек в кнопочке, которая открывает меню */
+.navbar-default .navbar-toggle .icon-bar {
+    background-color: white;
+}
+ 
+@media (max-width: 767px) {
+/* Цвет пунктов меню в раскрывающихся списках */
+    .navbar-default .navbar-nav .open .dropdown-menu > li > a {
+        color: #777;
+    }
+/* Цвет и фон пункта меню в раскрывающихся списках, при поднесении к нему курсора мышки или при нахождении его в фокусе */
+    .navbar-default .navbar-nav .open .dropdown-menu > li > a:hover,
+    .navbar-default .navbar-nav .open .dropdown-menu > li > a:focus {
+        color: #333;
+        background-color: transparent;
+    }
+}
+
+#MainBlock{ 
+border: solid black 1px; 
+margin-top: 60px;
+min-height:100%;
+overflow: auto;
+} 
+
+#Footer{ 
+border: solid black 1px; 
+} 
+
+html { 
+    height:100vh;
+    min-height:100vh;
+} 
+
+body { 
+    min-height:100vh;
+    height:100vh;
+}
+
+.container{
+    
+}
+
+.navbar-search .dropdown-menu { 
+    min-width: 25px; }
+.dropdown-menu .label-icon {
+    margin-left: 5px; }
+.btn-outline {
+    background-color: #4dde20;
+    color: inherit;
+    transition: all .5s;
+}
+.btn-search, .btn{
+    color: white;
+    background: #5AC539;
+    height: 32px;
+    border: solid 1px #DDD;
+}
+.btn {
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+#aboutuser{
+    padding-top: 8px;
+}

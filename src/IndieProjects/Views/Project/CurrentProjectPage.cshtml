@@ -1,0 +1,48 @@
+﻿@model IndieProjects.Model.Project
+
+
+        <h1>Создание проекта</h1><br />
+        <input type="hidden" name="idProject" value="@Model.ProjectID"/>
+        <img class="img-rounded" src="@Model.Avatar"><br />
+        <label id="Name">@Model.Name</label><br />
+        <label id="Links"/><br />
+        <label>Описание:</label>
+        <label>Понравилось - @Model.Likes людям</label><br />
+        <label>Вакансии: </label>
+        @if (Model.Vakancies != null)
+        {
+            @foreach (var vac in Model.Vakancies)
+            {
+                <label>vac.Title</label><br />
+            }
+        }
+        <label>Статус - @Model.StatusProject</label><br />
+<label>Комментарии</label>
+@if (User.Identity.IsAuthenticated)
+{
+    <form asp-action="AddCommentToProject" method="post">
+        <input type="text" name="txt" />
+        <input type="hidden" name="id" value="@Model.ProjectID" />
+        <input type="submit" value="Добавить" />
+    </form>
+}
+<div id="comments"></div>
+
+<script>
+    function show() {
+        $.ajax({
+            url: '/Project/Comments/' + $('input[name="idProject"]').val(),
+            contentType: 'application/html; charset=utf-8',
+            type: 'GET',
+            dataType: 'html',
+            success: function (result) {
+                $('#comments').html(result);
+            }
+        });
+    }
+
+    $(document).ready(function () {
+        show();
+        setInterval('show()', 7000);
+    });
+</script>

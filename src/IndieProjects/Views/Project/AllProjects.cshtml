@@ -1,0 +1,10 @@
+﻿@model IndieProjects.Model.Project
+
+@foreach (var val in ViewBag.Projects)
+{
+    <div>
+        <label>@val.Name</label>
+        <code>@val.Description</code>
+        <label>@val.Links</label>
+    </div>
+}

@@ -1,0 +1,111 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/js/jquery.imgareaselect.js"></script>
+    <link rel="stylesheet" href="~/css/imgareaselect-animated.css"/>
+    <link rel="stylesheet" href="~/css/imgareaselect-default.css" />
+
+    <link rel="stylesheet" href="~/css/Styles.css" />
+
+</head>
+<body>
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">ЛОГО</a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li class="active text-justify">
+                    <li><a href="~/Home/Gamers">Геймеру</a></li>
+                    <li><a href="~/Home/Developers">Разработчику</a></li>
+                    <li><a href="~/Project/AllProjects">Проекты</a></li>
+                    <li><a href="#">Вакансии</a></li>
+                </ul>
+                <form class="navbar-form navbar-left" role="search">
+                    <div class="input-group">
+                        <input type="text" class="form-control">
+                        <div class="input-group-btn">
+                            <button type="button" class="btn btn-search">
+                                <span class="glyphicon glyphicon-search"></span>
+                                <span class="label-icon"></span>
+                            </button>
+                            <button type="button" class="btn dropdown-toggle" data-toggle="dropdown">
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu navbar-left" role="menu">
+                                <li>
+                                    <a href="#">
+                                        <span class="label-icon">Искать по статьям</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <span class="label-icon">Искать по проектам</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </form>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a class="glyphicon glyphicon-bell"></a></li>
+                        <li><a class="glyphicon glyphicon-envelope"></a></li>
+                        <li id="aboutuser">
+                            <button type="button" class="btn dropdown-toggle glyphicon glyphicon-user" data-toggle="dropdown"></button>
+                            <ul class="dropdown-menu" role="menu">
+                                <li>
+                                    <a href="~/Account/MainAccountProfile">@User.Identity.Name</a>
+                                </li>
+                                <li>
+                                    <a href="~/Account/LogOff">Выход</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                                @if (User.IsInRole("admin"))
+                                {
+                                    <ul class="nav navbar-nav navbar-right">
+                                        <li>
+                                            <a href="~/Roles/UserList/">Страница администратора</a>
+                                        </li>
+                                    </ul>
+                                }
+                }
+                else
+                {
+                    <ul class="nav navbar-nav navbar-right text-justify(container)">
+                        <li><a href="~/Account/Login/">Вход</a></li>
+                        <li><a href="~/Account/Register/">Регистрация</a></li>
+                    </ul>
+                }
+            </div>
+        </div>
+    </nav>
+
+
+
+        <div class="container" id="MainBlock">
+            @RenderBody()
+        </div>
+
+    <div class="container" id="Footer">
+        текст футера
+    </div>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+</body>
+</html>
+

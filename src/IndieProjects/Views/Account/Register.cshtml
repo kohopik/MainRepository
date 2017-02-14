@@ -1,0 +1,21 @@
+﻿@model IndieProjects.ViewModel.RegisterUser
+
+<form id="Register" method="post" asp-controller="Account" asp-action="Register">
+    <h1>Регистрация нового пользователя</h1>
+    <div asp-validation-summary="ModelOnly"></div>
+    <fieldset id="inputs">
+        <input id="NickName" asp-for="NickName" placeholder="Логин" />
+        <span asp-validation-for="NickName"></span>
+        <input id="Email" asp-for="Email" placeholder="Почта" />
+        <span asp-validation-for="Email"></span>
+
+        <input id="Password" asp-for="Password" placeholder="Пароль" />
+        <span asp-validation-for="Password"></span>
+
+        <input id="PasswordConfirm" asp-for="PasswordConfirm" placeholder="Подтвердить пароль" />
+        <span asp-validation-for="PasswordConfirm"></span>
+    </fieldset>
+    <fieldset id="actions">
+        <input id="submit" type="submit" value="Регистрация" />
+    </fieldset>
+</form>
