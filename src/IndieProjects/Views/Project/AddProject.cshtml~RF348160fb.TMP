@@ -1,0 +1,26 @@
+﻿@model IndieProjects.Model.Project
+
+<form id="Project" method="post" asp-controller="Project" asp-action="AddProject">
+    <h1>Личная информация о пользователе</h1>
+    <fieldset id="inputs">
+        <input id="Avatar" asp-for="Avatar" placeholder="аватар" /><br />
+        <input id="Name" asp-for="Name" placeholder="Название" /><br />
+        <input id="Description" asp-for="Description" placeholder="Описание" /><br />
+        <input id="Links" asp-for="Links" placeholder="Ссылки" /><br />
+        <select id="Status" asp-for="StatusProject" placeholder="Статус проекта">
+            <option>@IndieProjects.Model.ProjectStatus.Active</option>
+            <option>@IndieProjects.Model.ProjectStatus.End</option>
+        </select>
+        <textarea onkeyup="textAreaAdjust(this)" cols="100" style="overflow:hidden"></textarea>
+    </fieldset>
+    <fieldset id="actions">
+        <input id="submit" type="submit" value="Регистрация" />
+    </fieldset>
+</form>
+
+<script>
+    function textAreaAdjust(o) {
+        o.style.height = "1px";
+          o.style.height = (25 + o.scrollHeight) + "px";
+    }
+</script>

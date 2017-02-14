@@ -1,0 +1,16 @@
+﻿<div class="modal-content">
+    <div class="modal-header">
+        <button class="close" data-dismiss="modal" area-hidden="true">X</button>
+        <h4>Изменить фотографию</h4>
+    </div>
+    <div class="modal-body">
+        <form id="inform" asp-controller="Account" asp-action="AddImg">
+            <input type="file" name="image_file" id="image_file" onchange="fileSelectHandler"/><br>
+            <img id="target" class="img-circle" width="140" height="140" /><br />
+            <input type="submit" value="Загрузить" />
+        </form>
+    </div>
+    <div class="modal-content">
+        <h6>Если у вас возникают трудности с загрузкой, выберите изображение с меньшим размером</h6>
+    </div>
+</div>

@@ -1,0 +1,18 @@
+﻿@model IEnumerable<IndieProjects.Model.Article>
+
+<li><a href="~/Account/">Обо мне</a></li>
+<li><a href="~/Account/Notification">Активность</a></li>
+<li><a href="~/Account/MyProjects">Мои проекты</a></li>
+<li><a href="~/Account/ProfileChanges">Редактировать профиль</a></li>
+<div>
+    <a href="~/Account/AddArticle/">Написать статью</a>
+    @foreach (var article in Model)
+    {
+        <div>
+            <label>@article.Title</label><br />
+            <label id="txt">@article.Content</label><br />
+            <label>@article.Likes</label>
+            <a href="~/Home/CurrentArticle/@article.ID">Перейти</a>
+        </div><br />
+    }
+</div>

@@ -1,0 +1,17 @@
+﻿@model IndieProjects.ViewModel.LoginViewModel
+
+<form id="login" method="post" asp-controller="Account" asp-action="Login"
+      asp-route-returnUrl="@Model.ReturnUrl">
+    <h1>Авторизация</h1>
+    <div asp-validation-summary="ModelOnly"></div>
+    <fieldset id="inputs">
+        <input id="username" asp-for="Email" placeholder="Логин" />
+        <span asp-validation-for="Email"></span>
+        <input id="password" asp-for="Password" placeholder="Пароль" />
+        <span asp-validation-for="Password"></span>
+    </fieldset>
+    <fieldset id="actions">
+        <input type="submit" id="submit" value="Войти" />
+        <a href="">Забыли пароль?</a><a href="~/Account/Register">Регистрация</a>
+    </fieldset>
+</form>

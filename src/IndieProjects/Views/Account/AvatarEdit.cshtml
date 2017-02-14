@@ -1,0 +1,16 @@
+﻿@*<script src="~/js/jquery.Jcrop.min.js"></script>
+<script src="~/js/crop.js"></script>*@
+
+
+<script>
+    $(function () {
+        $.ajaxSetup({ cache: false });
+        $(".comp").click(function (e) {
+            e.preventDefault();
+            $.get(this.href, function (data) {
+                $('#dialogContent').html(data);
+                $('#modDialog').modal('show');
+            });
+        });
+    })
+</script>

@@ -1,0 +1,143 @@
+﻿@model IndieProjects.Model.User
+
+<li><a href="~/Account/AboutMe">Обо мне</a></li>
+<li><a href="~/Account/Notification">Активность</a></li>
+<li><a href="~/Account/MyProjects">Мои проекты</a></li>
+<li><a href="~/Account/ProfileChanges">Редактировать профиль</a></li>
+
+
+
+<h1>Личная информация о пользователе</h1>
+<div id="modDialog" class="modal fade">
+    <div id="dialogContent" class="modal-dialog"></div>
+</div>
+<div class="AvatarOnProfile">
+    <img class="img-circle" src="https://pp.vk.me/c624420/v624420795/d0ff/-e_hKIpQuDI.jpg" width="140" height="140" />
+    <a class="btn btn-primary" data-toggle="modal" data-target="#gridSystemModal">изменить</a>
+</div>
+<form id="MyInformation" method="post" asp-controller="Account" asp-action="ChangeInformation">
+    <div class="form-group">
+        <label for="NickName">Логин</label>
+        <input class="form-control" id="NickName" asp-for="NickName" placeholder="Имя пользователя" />
+    </div>
+    <div class="form-group">
+        <label for="FIO">Ф.И.О.</label>
+        <input class="form-control" id="FIO" asp-for="FIO" placeholder="Фамилия Имя Отчество" />
+    </div>
+    <div class="form-group">
+        <label for="Country">Страна</label>
+        <input class="form-control" id="Country" asp-for="Country" placeholder="Страна" />
+    </div>
+    <div class="form-group">
+        <label for="City">Город</label>
+        <input class="form-control" id="City" asp-for="City" placeholder="Город" />
+    </div>
+    <div class="form-group">
+        <label for="Skype">Скайп</label>
+        <input class="form-control" id="Skype" asp-for="Skype" placeholder="Скайп" />
+    </div>
+    <div class="form-group">
+        <label for="OwnSite">Личный сайт</label>
+        <input class="form-control" id="OwnSite" asp-for="OwnSite" placeholder="Личный сайт" />
+    </div>
+    <div class="form-group">
+        <label for="AboutMe">Обо мне</label>
+        <textarea class="form-control" id="AboutMe" asp-for="AboutMe" placeholder="Обо мне"></textarea>
+    </div>
+    <input id="submit" type="submit" value="Сохранить изменения" />
+</form>
+
+<!--Модальное окно с изображением-->
+<div class="modal fade" tabindex="-1" role="dialog" id="ModalContentWithImage" aria-labelledby="gridModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" id="imagecont">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="gridModalLabel">Загрузка новой фотографии</h4>
+            </div>
+            <div class="modal-body">
+               @* <form id="inform" asp-controller="Account" asp-action="AddImg">*@
+                    <img id="target" class="center-block" src="https://pp.vk.me/c624420/v624420795/d0ff/-e_hKIpQuDI.jpg" alt="" style="width='100%'"/><br />
+                    <input type="submit" id="clack" value="Загрузить"/>
+               @* </form>*@
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Предварительное окно загрузки изображения-->
+<div id="gridSystemModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="gridModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header center-block">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="gridModalLabel">Загрузка новой фотографии</h4>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid bd-example-row center-block">
+                    <div>
+                        Вы можете загрузить фотографию форматов .JPG, .PNG, .JPEG
+                    </div>
+                    <input type="file" id="imgInput" title="Tag" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('#clack').click(function () {
+        var element = $('#target').imgAreaSelect({ instance: true });
+        $.ajax({
+            url: '/Account/AddAvatar/',
+            json: {
+                data: "sdg"
+            },
+            contentType: 'application/html; charset=utf-8',
+            type: 'POST',
+            dataType: 'string',
+            success: function (result) {
+                alert('Успех');
+            }
+        });
+    });
+
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#target').attr('src', e.target.result);
+            };
+            reader.readAsDataURL(input.files[0]);
+            $('#gridSystemModal').modal('hide');
+            $('#imgInput').val("")
+            $('#ModalContentWithImage').modal('show');
+        }
+    }
+
+    $('#ModalContentWithImage').on('shown.bs.modal', function (e)
+    {
+        $('#imagecont').height();
+        if($('#gridModalLabel').innerWidth() < $('#target').width())
+        {
+            $('#target').width($('#gridModalLabel').innerWidth());
+        }
+    })
+
+    $("#imgInput").change(function ()
+    {
+        readURL(this);
+    });
+
+    $(document).ready(function () {
+        $('#target').imgAreaSelect(
+            {
+                aspectRatio: '4:3', handles: true,
+                onSelectEnd: function(img,selection)
+                {
+                    @*alert(selection.x1 + ' ' + selection.x2 + ' ' + selection.y1 + ' ' + selection.y2);*@
+                }
+            }
+            );
+    });
+</script>

@@ -1,0 +1,36 @@
+﻿@model IndieProjects.Model.Article
+
+<input type="hidden" name="idArticle" value="@Model.ID" />
+<label id="Title">@Model.Title</label><br />
+<label id="Links" /><br />
+<label>Описание:</label>
+<label>Понравилось - @Model.Likes людям</label><br />
+<label>Комментарии</label>
+@if (User.Identity.IsAuthenticated)
+{
+    <form asp-action="AddCommentToArticle" method="post">
+        <input type="text" name="txt" />
+        <input type="hidden" name="id" value="@Model.ID" />
+        <input type="submit" value="Добавить" />
+    </form>
+}
+<div id="comments"></div>
+
+<script>
+    function show() {
+        $.ajax({
+            url: '/Account/Comments/' + $('input[name="idArticle"]').val(),
+            contentType: 'application/html; charset=utf-8',
+            type: 'GET',
+            dataType: 'html',
+            success: function (result) {
+                $('#comments').html(result);
+            }
+        });
+    }
+
+    $(document).ready(function () {
+        show();
+        setInterval('show()', 7000);
+    });
+</script>
