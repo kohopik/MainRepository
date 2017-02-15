@@ -12,7 +12,7 @@
     <div id="dialogContent" class="modal-dialog"></div>
 </div>
 <div class="AvatarOnProfile">
-    <img class="img-circle" src="https://pp.vk.me/c624420/v624420795/d0ff/-e_hKIpQuDI.jpg" width="140" height="140" />
+    <img id="#avatar" class="img-circle" src="~/@Model.Avatar" width="140" height="140" />
     <a class="btn btn-primary" data-toggle="modal" data-target="#gridSystemModal">изменить</a>
 </div>
 <form id="MyInformation" method="post" asp-controller="Account" asp-action="ChangeInformation">
@@ -55,11 +55,9 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="gridModalLabel">Загрузка новой фотографии</h4>
             </div>
-            <div class="modal-body">
-               @* <form id="inform" asp-controller="Account" asp-action="AddImg">*@
-                    <img id="target" class="center-block" src="https://pp.vk.me/c624420/v624420795/d0ff/-e_hKIpQuDI.jpg" alt="" style="width='100%'"/><br />
-                    <input type="submit" id="clack" value="Загрузить"/>
-               @* </form>*@
+            <div class="modal-body" id="divWithImg">
+                <img id="target" class="center-block" src="" alt="" /><br />
+                <input type="submit" id="clack" value="Загрузить" />
             </div>
         </div>
     </div>
@@ -86,18 +84,19 @@
 </div>
 
 <script>
+    var localvariable;
+    var send;
+    var imgarea;
+
     $('#clack').click(function () {
-        var element = $('#target').imgAreaSelect({ instance: true });
         $.ajax({
             url: '/Account/AddAvatar/',
-            json: {
-                data: "sdg"
-            },
-            contentType: 'application/html; charset=utf-8',
+            data: JSON.stringify(send),
+            contentType: 'application/json',
             type: 'POST',
-            dataType: 'string',
             success: function (result) {
-                alert('Успех');
+                alert('Ваша фотография успешно обновлена');
+                $('#ModalContentWithImage').modal('hide');
             }
         });
     });
@@ -107,6 +106,7 @@
             var reader = new FileReader();
             reader.onload = function (e) {
                 $('#target').attr('src', e.target.result);
+                localvariable = e.target.result;
             };
             reader.readAsDataURL(input.files[0]);
             $('#gridSystemModal').modal('hide');
@@ -115,13 +115,18 @@
         }
     }
 
-    $('#ModalContentWithImage').on('shown.bs.modal', function (e)
+    @*$('#ModalContentWithImage').on('shown.bs.modal', function (e)
     {
         $('#imagecont').height();
         if($('#gridModalLabel').innerWidth() < $('#target').width())
         {
             $('#target').width($('#gridModalLabel').innerWidth());
         }
+    })*@
+
+    
+    $('#ModalContentWithImage').on('hide.bs.modal', function (e) {
+        imgarea.cancelSelection();
     })
 
     $("#imgInput").change(function ()
@@ -130,14 +135,15 @@
     });
 
     $(document).ready(function () {
-        $('#target').imgAreaSelect(
+        imgarea = $('#target').imgAreaSelect(
             {
+                instance: true,
                 aspectRatio: '4:3', handles: true,
                 onSelectEnd: function(img,selection)
                 {
-                    @*alert(selection.x1 + ' ' + selection.x2 + ' ' + selection.y1 + ' ' + selection.y2);*@
+                    send = { Avatar: localvariable, x1: selection.x1, x2: selection.x2, y1: selection.y1, y2: selection.y2, height: $('#target').height(), width: $('#target').width() };
                 }
-            }
-            );
+            });
     });
 </script>
+

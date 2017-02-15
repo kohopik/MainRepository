@@ -105,6 +105,13 @@ body {
     height:100vh;
 }
 
+#divWithImg img
+{
+    max-height: 100%;
+    max-width: 100%;
+    vertical-align: middle;
+}
+
 .container{
     
 }

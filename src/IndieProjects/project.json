@@ -12,6 +12,7 @@
       "version": "1.0.0-preview2-final",
       "type": "build"
     },
+    "CoreCompat.System.Drawing": "1.0.0-beta006",
     "Microsoft.AspNetCore.Routing": "1.0.1",
     "Microsoft.AspNetCore.Server.IISIntegration": "1.0.0",
     "Microsoft.AspNetCore.Server.Kestrel": "1.0.1",

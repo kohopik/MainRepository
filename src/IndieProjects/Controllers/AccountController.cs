@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Hosting;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.Drawing.Drawing2D;
 using System.IO;
 using Microsoft.AspNetCore.Identity;
 using Newtonsoft.Json;
@@ -51,10 +54,75 @@ namespace IndieProjects.Controllers
             return View();
         }
 
-        [HttpPost]
-        public string AddAvatar([FromBody] AvatarWithParameters format)
+        public Bitmap ResizeImage(Image image, int width, int height)
         {
-            //var obj = JsonConvert.DeserializeObject<byte>(format);
+            var destRect = new Rectangle(0, 0, width, height);
+            var destImage = new Bitmap(width, height);
+
+            destImage.SetResolution(image.HorizontalResolution, image.VerticalResolution);
+
+            using (var graphics = Graphics.FromImage(destImage))
+            {
+                graphics.CompositingMode = CompositingMode.SourceCopy;
+                graphics.CompositingQuality = CompositingQuality.HighQuality;
+                graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                graphics.SmoothingMode = SmoothingMode.HighQuality;
+                graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+
+                using (var wrapMode = new ImageAttributes())
+                {
+                    wrapMode.SetWrapMode(WrapMode.TileFlipXY);
+                    graphics.DrawImage(image, destRect, 0, 0, image.Width, image.Height, GraphicsUnit.Pixel, wrapMode);
+                }
+            }
+
+            return destImage;
+        }
+
+        [HttpPost]
+        public async Task<string> AddAvatar([FromBody] AvatarWithParameters parameter)
+        {
+            string base64 = parameter.Avatar.Remove(0, parameter.Avatar.IndexOf("base64") + 7);
+            var bytes = Convert.FromBase64String(base64);
+            MemoryStream mStream = new MemoryStream();
+            await mStream.WriteAsync(bytes, 0, Convert.ToInt32(bytes.Length));
+            Bitmap bm = new Bitmap(mStream, false);
+            ImageFormat img = bm.RawFormat;
+            if(bm.Width != parameter.width || bm.Height != parameter.height)
+            {
+                 bm = ResizeImage(bm, parameter.width, parameter.height);
+            }
+            Rectangle cropRect = new Rectangle(parameter.x1, parameter.y1, parameter.x2 - parameter.x1, parameter.y2 - parameter.y1);
+            Bitmap target = new Bitmap(cropRect.Width, cropRect.Height);
+            using (Graphics g = Graphics.FromImage(target))
+            {
+                g.DrawImage(bm, new Rectangle(0, 0, target.Width, target.Height),
+                                 cropRect,
+                                 GraphicsUnit.Pixel);
+            }
+            User user = await _userManager.FindByNameAsync(User.Identity.Name);
+            User Currentuser = indieContext.Users.FirstOrDefault(x => x.Id == user.Id);
+            string newPath = @"images\" + user.Id.ToString();
+            if (ImageFormat.Jpeg.Equals(img))
+            {
+                target.Save(_appEnviroment.WebRootPath + "\\images\\"+ Currentuser.Id.ToString() + ".jpeg" , System.Drawing.Imaging.ImageFormat.Jpeg);
+                newPath += ".jpeg";
+            }
+            if (ImageFormat.Png.Equals(img))
+            {
+                target.Save(_appEnviroment.WebRootPath + "\\images\\" + Currentuser.Id.ToString() + ".png", System.Drawing.Imaging.ImageFormat.Png);
+                newPath += ".png";
+            }
+            if(ImageFormat.Bmp.Equals(img))
+            {
+                target.Save(_appEnviroment.WebRootPath + "\\images\\" + Currentuser.Id.ToString() + ".bmp", System.Drawing.Imaging.ImageFormat.Bmp);
+                newPath += ".bmp";
+            }
+            mStream.Dispose();
+            bm.Dispose();
+            target.Dispose();
+            Currentuser.Avatar = newPath;
+            await indieContext.SaveChangesAsync();
             return "Успешно";
         }
 
