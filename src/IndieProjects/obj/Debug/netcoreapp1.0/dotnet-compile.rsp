@@ -14,6 +14,7 @@
 --informational-version:1.0.0
 --target-framework:.NETCoreApp,Version=v1.0
 --reference:C:\Users\Илья\.nuget\packages\CoreCompat.System.Drawing\1.0.0-beta006\lib\netstandard1.3\CoreCompat.System.Drawing.dll
+--reference:C:\Users\Илья\.nuget\packages\ImageSharp\1.0.0-alpha2-00078\lib\netstandard1.3\ImageSharp.dll
 --reference:C:\Users\Илья\.nuget\packages\Microsoft.ApplicationInsights\2.1.0\lib\dotnet5.4\Microsoft.ApplicationInsights.dll
 --reference:C:\Users\Илья\.nuget\packages\Microsoft.ApplicationInsights.AspNetCore\1.0.0\lib\netstandard1.6\Microsoft.ApplicationInsights.AspNetCore.dll
 --reference:C:\Users\Илья\.nuget\packages\Microsoft.AspNetCore.Antiforgery\1.0.1\lib\netstandard1.3\Microsoft.AspNetCore.Antiforgery.dll
@@ -156,8 +157,8 @@
 --reference:C:\Users\Илья\.nuget\packages\System.IO\4.1.0\ref\netstandard1.5\System.IO.dll
 --reference:C:\Users\Илья\.nuget\packages\System.IO.Compression\4.1.0\ref\netstandard1.3\System.IO.Compression.dll
 --reference:C:\Users\Илья\.nuget\packages\System.IO.Compression.ZipFile\4.0.1\ref\netstandard1.3\System.IO.Compression.ZipFile.dll
---reference:C:\Users\Илья\.nuget\packages\System.IO.FileSystem\4.0.1\ref\netstandard1.3\System.IO.FileSystem.dll
---reference:C:\Users\Илья\.nuget\packages\System.IO.FileSystem.Primitives\4.0.1\ref\netstandard1.3\System.IO.FileSystem.Primitives.dll
+--reference:C:\Users\Илья\.nuget\packages\System.IO.FileSystem\4.3.0\ref\netstandard1.3\System.IO.FileSystem.dll
+--reference:C:\Users\Илья\.nuget\packages\System.IO.FileSystem.Primitives\4.3.0\ref\netstandard1.3\System.IO.FileSystem.Primitives.dll
 --reference:C:\Users\Илья\.nuget\packages\System.IO.FileSystem.Watcher\4.0.0\ref\netstandard1.3\System.IO.FileSystem.Watcher.dll
 --reference:C:\Users\Илья\.nuget\packages\System.IO.MemoryMappedFiles\4.0.0\ref\netstandard1.3\System.IO.MemoryMappedFiles.dll
 --reference:C:\Users\Илья\.nuget\packages\System.IO.UnmanagedMemoryStream\4.0.1\ref\netstandard1.3\System.IO.UnmanagedMemoryStream.dll
@@ -186,9 +187,10 @@
 --reference:C:\Users\Илья\.nuget\packages\System.Reflection.TypeExtensions\4.1.0\ref\netstandard1.5\System.Reflection.TypeExtensions.dll
 --reference:C:\Users\Илья\.nuget\packages\System.Resources.Reader\4.0.0\lib\netstandard1.0\System.Resources.Reader.dll
 --reference:C:\Users\Илья\.nuget\packages\System.Resources.ResourceManager\4.0.1\ref\netstandard1.0\System.Resources.ResourceManager.dll
---reference:C:\Users\Илья\.nuget\packages\System.Runtime\4.1.0\ref\netstandard1.5\System.Runtime.dll
+--reference:C:\Users\Илья\.nuget\packages\System.Runtime\4.3.0\ref\netstandard1.5\System.Runtime.dll
+--reference:C:\Users\Илья\.nuget\packages\System.Runtime.CompilerServices.Unsafe\4.0.0\lib\netstandard1.0\System.Runtime.CompilerServices.Unsafe.dll
 --reference:C:\Users\Илья\.nuget\packages\System.Runtime.Extensions\4.1.0\ref\netstandard1.5\System.Runtime.Extensions.dll
---reference:C:\Users\Илья\.nuget\packages\System.Runtime.Handles\4.0.1\ref\netstandard1.3\System.Runtime.Handles.dll
+--reference:C:\Users\Илья\.nuget\packages\System.Runtime.Handles\4.3.0\ref\netstandard1.3\System.Runtime.Handles.dll
 --reference:C:\Users\Илья\.nuget\packages\System.Runtime.InteropServices\4.1.0\ref\netstandard1.5\System.Runtime.InteropServices.dll
 --reference:C:\Users\Илья\.nuget\packages\System.Runtime.InteropServices.RuntimeInformation\4.0.0\ref\netstandard1.1\System.Runtime.InteropServices.RuntimeInformation.dll
 --reference:C:\Users\Илья\.nuget\packages\System.Runtime.Loader\4.0.0\ref\netstandard1.5\System.Runtime.Loader.dll
@@ -201,7 +203,7 @@
 --reference:C:\Users\Илья\.nuget\packages\System.Security.Cryptography.X509Certificates\4.1.0\ref\netstandard1.4\System.Security.Cryptography.X509Certificates.dll
 --reference:C:\Users\Илья\.nuget\packages\System.Security.Principal\4.0.1\ref\netstandard1.0\System.Security.Principal.dll
 --reference:C:\Users\Илья\.nuget\packages\System.Security.Principal.Windows\4.0.0\ref\netstandard1.3\System.Security.Principal.Windows.dll
---reference:C:\Users\Илья\.nuget\packages\System.Text.Encoding\4.0.11\ref\netstandard1.3\System.Text.Encoding.dll
+--reference:C:\Users\Илья\.nuget\packages\System.Text.Encoding\4.3.0\ref\netstandard1.3\System.Text.Encoding.dll
 --reference:C:\Users\Илья\.nuget\packages\System.Text.Encoding.Extensions\4.0.11\ref\netstandard1.3\System.Text.Encoding.Extensions.dll
 --reference:C:\Users\Илья\.nuget\packages\System.Text.Encodings.Web\4.0.0\lib\netstandard1.0\System.Text.Encodings.Web.dll
 --reference:C:\Users\Илья\.nuget\packages\System.Text.RegularExpressions\4.1.0\ref\netstandard1.6\System.Text.RegularExpressions.dll

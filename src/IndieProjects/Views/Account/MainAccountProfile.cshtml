@@ -1,8 +1,76 @@
-﻿<li><a href="~/Account/AboutMe">Обо мне</a></li>
-<li><a href="~/Account/Notification">Активность</a></li>
-<li><a href="~/Account/MyProjects">Мои проекты</a></li>
-<li><a href="~/Account/ProfileChanges">Редактировать профиль</a></li>
-<li><a href="~/Account/MyArticles">Мои статьи</a></li>
-<div>
-    <h1>greger</h1>
+﻿<div class="col-lg-12" id="cabinetTopic">
+    <span id="username">@User.Identity.Name</span>
+    <span class="pull-right OnOffstatus">статус пользователя</span>
 </div>
+<div class="col-lg-4">
+    <img id="Avatar" class="img-circle" src="~/images/rounded-512.png" width="140" height="140" />
+    <ul class="ca-menu">
+        <li>
+            <a href="#">
+                <span class="ca-icon">
+                    A
+                </span>
+                <div class="ca-content">
+                    <h3 class="ca-main">Сообщения</h3>
+                </div>
+            </a>
+        </li>
+        <li>
+            <a href="#">
+                <span class="ca-icon">d</span>
+                <div class="ca-content">
+                    <h3 class="ca-main">Мои чаты</h3>
+                </div>
+            </a>
+        </li>
+        <li>
+            <a href="~/Account/ProfileChanges">
+                <span class="ca-icon">J</span>
+                <div class="ca-content">
+                    <h3 class="ca-main">Редактировать профиль</h3>
+                </div>
+            </a>
+        </li>
+        <li>
+            <a href="#">
+                <span class="ca-icon">h</span>
+                <div class="ca-content">
+                    <h3 class="ca-main">Выход</h3>
+                </div>
+            </a>
+        </li>
+    </ul>
+</div>
+
+<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+    <div id="tabsblock">
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><a href="#AboutMe" aria-controls="AboutMe" role="tab" data-toggle="tab">Обо мне</a></li>
+            <li role="presentation"><a href="#Activity" aria-controls="Activity" role="tab" data-toggle="tab">Активность</a></li>
+            <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Мои проекты</a></li>
+            <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Мои статьи</a></li>
+        </ul>
+        <div class="tab-content">
+            <div id="AboutMe" class="tab-pane fade in active">
+                <h1>Личная информация</h1>
+                @Html.Partial("_About")
+            </div>
+            <div id="Activity" class="tab-pane fade">
+                <h1>Panel1</h1>
+                @Html.Partial("_Activity")
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<script type="text/javascript">
+$(document).ready(function(){
+  $("#myTab a").click(function(e){
+    e.preventDefault();
+    $(this).tab('show');
+  });
+});
+</script>

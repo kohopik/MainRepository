@@ -166,7 +166,7 @@ namespace IndieProjects.Controllers
 
         public IActionResult Notification()
         {
-            return View();
+            return PartialView("_Activity");
         }
 
         [HttpPost]
@@ -209,7 +209,7 @@ namespace IndieProjects.Controllers
 
         public IActionResult AboutMe()
         {
-            return View();
+            return PartialView("_About");
         }
 
         public PartialViewResult _AboutMe()
