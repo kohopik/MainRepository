@@ -102,20 +102,20 @@ namespace IndieProjects.Controllers
             }
             User user = await _userManager.FindByNameAsync(User.Identity.Name);
             User Currentuser = indieContext.Users.FirstOrDefault(x => x.Id == user.Id);
-            string newPath = @"images\" + user.Id.ToString();
+            string newPath = @"images/avatars/" + user.Id.ToString();
             if (ImageFormat.Jpeg.Equals(img))
             {
-                target.Save(_appEnviroment.WebRootPath + "\\images\\"+ Currentuser.Id.ToString() + ".jpeg" , System.Drawing.Imaging.ImageFormat.Jpeg);
+                target.Save(_appEnviroment.WebRootPath + "\\images\\avatars\\"+ Currentuser.Id.ToString() + ".jpeg" , System.Drawing.Imaging.ImageFormat.Jpeg);
                 newPath += ".jpeg";
             }
             if (ImageFormat.Png.Equals(img))
             {
-                target.Save(_appEnviroment.WebRootPath + "\\images\\" + Currentuser.Id.ToString() + ".png", System.Drawing.Imaging.ImageFormat.Png);
+                target.Save(_appEnviroment.WebRootPath + "\\images\\avatars\\" + Currentuser.Id.ToString() + ".png", System.Drawing.Imaging.ImageFormat.Png);
                 newPath += ".png";
             }
             if(ImageFormat.Bmp.Equals(img))
             {
-                target.Save(_appEnviroment.WebRootPath + "\\images\\" + Currentuser.Id.ToString() + ".bmp", System.Drawing.Imaging.ImageFormat.Bmp);
+                target.Save(_appEnviroment.WebRootPath + "\\images\\avatars\\" + Currentuser.Id.ToString() + ".bmp", System.Drawing.Imaging.ImageFormat.Bmp);
                 newPath += ".bmp";
             }
             mStream.Dispose();
@@ -212,6 +212,11 @@ namespace IndieProjects.Controllers
             return View();
         }
 
+        public PartialViewResult _AboutMe()
+        {
+            return PartialView();
+        }
+
         public IActionResult MainAccountProfile()
         {
             return View();
@@ -232,13 +237,13 @@ namespace IndieProjects.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Register(RegisterUser model)
+        public async Task<IActionResult> Register(string Login,string Email,string Password, string ConfirmPassword)
         {
             if (ModelState.IsValid)
             {
-                User user = new User { NickName = model.NickName, Email = model.Email, UserName = model.Email };
+                User user = new User { NickName = Login, Email = Email, UserName = Login };
                 // добавляем пользователя
-                var result = await _userManager.CreateAsync(user, model.Password);
+                var result = await _userManager.CreateAsync(user, Password);
                 if (result.Succeeded)
                 {
                     // установка куки
@@ -253,7 +258,7 @@ namespace IndieProjects.Controllers
                     }
                 }
             }
-            return View(model);
+            return View();
         }
 
         [HttpGet]
@@ -264,36 +269,29 @@ namespace IndieProjects.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(LoginViewModel model)
+        public async Task<IActionResult> Login(string Email,string Password)
         {
             if (ModelState.IsValid)
             {
-                var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
+                var result = await _signInManager.PasswordSignInAsync(Email, Password, false, false);
                 if (result.Succeeded)
                 {
-                    if (!String.IsNullOrEmpty(model.ReturnUrl) && Url.IsLocalUrl(model.ReturnUrl))
-                    {
-                        return Redirect(model.ReturnUrl);
-                    }
-                    else
-                    {
-                        return RedirectToAction("Index", "Home");
-                    }
+                   return RedirectToAction("Index", "Home");
                 }
                 else
                 {
                     ModelState.AddModelError("", "Неправильный логин и (или) пароль");
                 }
             }
-            return View(model);
+            return View();
         }
-
+        
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public async Task<IActionResult> LogOff()
         {
             await _signInManager.SignOutAsync();
-            return RedirectToAction("Index", "Home");
+            return RedirectToActionPermanent("Index", "Home");
         }
     }
 }

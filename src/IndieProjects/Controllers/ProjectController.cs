@@ -6,6 +6,12 @@ using Microsoft.AspNetCore.Mvc;
 using IndieProjects.Model;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Hosting;
+using System.IO;
+using System.Drawing;
+using System.Drawing.Imaging;
+using IndieProjects.ViewModel;
+using System.Drawing.Drawing2D;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -16,11 +22,13 @@ namespace IndieProjects.Controllers
         IndieContext context;
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
-        public ProjectController(UserManager<User> userManager, SignInManager<User> signInManager, IndieContext indie)
+        IHostingEnvironment _appEnviroment;
+        public ProjectController(UserManager<User> userManager, SignInManager<User> signInManager, IndieContext indie, IHostingEnvironment appEnvironment)
         {
             context = indie;
             _userManager = userManager;
             _signInManager = signInManager;
+            _appEnviroment = appEnvironment;
         }
 
         public IActionResult AllProjects()
@@ -43,19 +51,72 @@ namespace IndieProjects.Controllers
         public async Task<IActionResult> AddProject(Project project)
         {
             User user = await _userManager.FindByNameAsync(User.Identity.Name);
-            context.Projects.Add(new Project()
+            string Avatar = await AddAvatar(project.Avatar);
+            Project myProject = new Project()
             {
                 ProjectManager = user,
-                Avatar = project.Avatar,
+                Avatar = Avatar,
                 Links = project.Links,
                 Description = project.Description,
                 StatusProject = project.StatusProject,
                 Name = project.Name,
                 Likes = 0,
                 Team = new List<DeveloperProject>(),
-                Vakancies = new List<Vakanci>()});
+                Vakancies = new List<Vakanci>()
+            };
             await context.SaveChangesAsync();
             return RedirectToAction("MyProjects","Account");
+        }
+
+        [HttpPost]
+        public async Task<string> AddAvatar(string Avatar)
+        {
+            string base64 = Avatar.Remove(0, Avatar.IndexOf("base64") + 7);
+            var bytes = Convert.FromBase64String(base64);
+            MemoryStream mStream = new MemoryStream();
+            await mStream.WriteAsync(bytes, 0, Convert.ToInt32(bytes.Length));
+            Bitmap bm = new Bitmap(mStream, false);
+
+            var destImage = new Bitmap(bm.Width, bm.Height);
+
+            destImage.SetResolution(bm.HorizontalResolution, bm.VerticalResolution);
+
+            using (var graphics = Graphics.FromImage(destImage))
+            {
+                graphics.CompositingMode = CompositingMode.SourceCopy;
+                graphics.CompositingQuality = CompositingQuality.HighQuality;
+                graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                graphics.SmoothingMode = SmoothingMode.HighQuality;
+                graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+
+                using (var wrapMode = new ImageAttributes())
+                {
+                    wrapMode.SetWrapMode(WrapMode.TileFlipXY);
+                    graphics.DrawImage(bm, new Rectangle(0,0,bm.Width,bm.Height), 0, 0, bm.Width, bm.Height, GraphicsUnit.Pixel, wrapMode);
+                }
+            }
+            ImageFormat img = bm.RawFormat;
+            string newPath = @"images/projects/" + Avatar;
+            if (ImageFormat.Jpeg.Equals(img))
+            {
+                destImage.Save(_appEnviroment.WebRootPath + "\\images\\projects\\" + Avatar + ".jpeg", System.Drawing.Imaging.ImageFormat.Jpeg);
+                newPath += ".jpeg";
+            }
+            if (ImageFormat.Png.Equals(img))
+            {
+                destImage.Save(_appEnviroment.WebRootPath + "\\images\\projects\\" + Avatar + ".png", System.Drawing.Imaging.ImageFormat.Png);
+                newPath += ".png";
+            }
+            if (ImageFormat.Bmp.Equals(img))
+            {
+                destImage.Save(_appEnviroment.WebRootPath + "\\images\\projects\\" + Avatar + ".bmp", System.Drawing.Imaging.ImageFormat.Bmp);
+                newPath += ".bmp";
+            }
+            mStream.Dispose();
+            bm.Dispose();
+            destImage.Dispose();
+            await context.SaveChangesAsync();
+            return newPath;
         }
 
         [HttpGet]

@@ -2,8 +2,10 @@
 
 <input type="hidden" name="idArticle" value="@Model.ID" />
 <label id="Title">@Model.Title</label><br />
-<label id="Links" /><br />
 <label>Описание:</label>
+<div class="ContentDescription">
+    @Html.Raw(Model.Content)
+</div>
 <label>Понравилось - @Model.Likes людям</label><br />
 <label>Комментарии</label>
 @if (User.Identity.IsAuthenticated)

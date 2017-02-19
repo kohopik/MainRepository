@@ -4,6 +4,7 @@
 /// <reference path="js/jquery.hotkeys.js" />
 /// <reference path="js/jquery.imgareaselect.js" />
 /// <reference path="js/jquery.min.js" />
+/// <reference path="js/masonry.pkgd.min.js" />
 /// <reference path="js/site.js" />
 /// <reference path="lib/bootstrap/dist/js/bootstrap.js" />
 /// <reference path="lib/jquery/dist/jquery.js" />

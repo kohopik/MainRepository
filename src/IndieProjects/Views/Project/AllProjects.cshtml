@@ -1,10 +1,14 @@
 ﻿@model IndieProjects.Model.Project
 
-@foreach (var val in ViewBag.Projects)
-{
-    <div>
-        <label>@val.Name</label>
-        <code>@val.Description</code>
-        <label>@val.Links</label>
-    </div>
-}
+<div class="elements-grid Project-grid">
+    @foreach (var val in ViewBag.Projects)
+    {
+        <div class="element-item col-xs-12 col-md-3 project-cell">
+            <div class="element-image">
+            <img class="Project-Image" src="http://s3.favim.com/orig/42/city-eiffel-france-love-paris-Favim.com-356711.jpg"/>
+            <span class="glyphicon glyphicon-thumbs-up"></span><p>@val.Likes</p>
+            </div>
+            <a href="~/Project/CurrentProjectPage/@val.ProjectID">@val.Name</a>
+        </div>
+    }
+</div>

@@ -10,7 +10,8 @@
     {
         <div>
             <label>@article.Title</label><br />
-            <label id="txt">@article.Content</label><br />
+            <label id="txt"></label><br />
+            @Html.Raw(article.Content)
             <label>@article.Likes</label>
             <a href="~/Home/CurrentArticle/@article.ID">Перейти</a>
         </div><br />

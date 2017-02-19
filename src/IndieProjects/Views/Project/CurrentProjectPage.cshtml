@@ -1,12 +1,10 @@
 ﻿@model IndieProjects.Model.Project
 
-
-        <h1>Создание проекта</h1><br />
         <input type="hidden" name="idProject" value="@Model.ProjectID"/>
-        <img class="img-rounded" src="@Model.Avatar"><br />
+        <img class="img-rounded img-responsive" src="@Model.Avatar"><br />
         <label id="Name">@Model.Name</label><br />
         <label id="Links"/><br />
-        <label>Описание:</label>
+        <label>Описание:</label>@Html.Raw(Model.Description)
         <label>Понравилось - @Model.Likes людям</label><br />
         <label>Вакансии: </label>
         @if (Model.Vakancies != null)
@@ -26,7 +24,10 @@
         <input type="submit" value="Добавить" />
     </form>
 }
-<div id="comments"></div>
+
+<div id="comments">
+
+</div>
 
 <script>
     function show() {
