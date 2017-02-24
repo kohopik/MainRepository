@@ -38,6 +38,32 @@ namespace IndieProjects.Migrations
                     b.ToTable("Articles");
                 });
 
+            modelBuilder.Entity("IndieProjects.Model.ArticleCommentaries", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("ArticleID");
+
+                    b.Property<string>("AuthorId");
+
+                    b.Property<string>("Content");
+
+                    b.Property<DateTime>("DateSend");
+
+                    b.Property<int?>("ParentCommentaryID");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("ArticleID");
+
+                    b.HasIndex("AuthorId");
+
+                    b.HasIndex("ParentCommentaryID");
+
+                    b.ToTable("ArticleCommentaries");
+                });
+
             modelBuilder.Entity("IndieProjects.Model.ChatMessage", b =>
                 {
                     b.Property<int>("ID")
@@ -58,46 +84,13 @@ namespace IndieProjects.Migrations
                     b.ToTable("ChatMessages");
                 });
 
-            modelBuilder.Entity("IndieProjects.Model.Commentary", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int?>("ArticleID");
-
-                    b.Property<string>("AuthorId");
-
-                    b.Property<string>("Content");
-
-                    b.Property<DateTime>("DateSend");
-
-                    b.Property<int?>("ProjectID");
-
-                    b.Property<int?>("SelfCommentaryID");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("ArticleID");
-
-                    b.HasIndex("AuthorId");
-
-                    b.HasIndex("ProjectID");
-
-                    b.HasIndex("SelfCommentaryID");
-
-                    b.ToTable("Commentaries");
-                });
-
             modelBuilder.Entity("IndieProjects.Model.DeveloperProject", b =>
                 {
-                    b.Property<int>("DeveloperProjectID")
-                        .ValueGeneratedOnAdd();
+                    b.Property<string>("UserId");
 
                     b.Property<int>("ProjectID");
 
-                    b.Property<string>("UserId");
-
-                    b.HasKey("DeveloperProjectID");
+                    b.HasKey("UserId", "ProjectID");
 
                     b.HasIndex("ProjectID");
 
@@ -135,6 +128,8 @@ namespace IndieProjects.Migrations
 
                     b.Property<string>("Avatar");
 
+                    b.Property<DateTime>("DateOfPublish");
+
                     b.Property<string>("Description");
 
                     b.Property<int>("Likes");
@@ -154,10 +149,35 @@ namespace IndieProjects.Migrations
                     b.ToTable("Projects");
                 });
 
+            modelBuilder.Entity("IndieProjects.Model.ProjectCommentaries", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("AuthorId");
+
+                    b.Property<string>("Content");
+
+                    b.Property<DateTime>("DateSend");
+
+                    b.Property<int?>("ParentCommentaryID");
+
+                    b.Property<int?>("ProjectID");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("AuthorId");
+
+                    b.HasIndex("ParentCommentaryID");
+
+                    b.HasIndex("ProjectID");
+
+                    b.ToTable("ProjectCommentaries");
+                });
+
             modelBuilder.Entity("IndieProjects.Model.Summary", b =>
                 {
-                    b.Property<int>("UserID")
-                        .ValueGeneratedOnAdd();
+                    b.Property<string>("UserID");
 
                     b.Property<string>("AboutHimself");
 
@@ -166,6 +186,9 @@ namespace IndieProjects.Migrations
                     b.Property<int>("SummaryStatus");
 
                     b.HasKey("UserID");
+
+                    b.HasIndex("UserID")
+                        .IsUnique();
 
                     b.ToTable("Summaries");
                 });
@@ -242,8 +265,6 @@ namespace IndieProjects.Migrations
 
                     b.Property<int>("Status");
 
-                    b.Property<int?>("SummaryUserID");
-
                     b.Property<string>("ThePost");
 
                     b.Property<bool>("TwoFactorEnabled");
@@ -259,9 +280,6 @@ namespace IndieProjects.Migrations
                     b.HasIndex("NormalizedUserName")
                         .IsUnique()
                         .HasName("UserNameIndex");
-
-                    b.HasIndex("SummaryUserID")
-                        .IsUnique();
 
                     b.ToTable("AspNetUsers");
                 });
@@ -410,6 +428,21 @@ namespace IndieProjects.Migrations
                         .HasForeignKey("AuthorId");
                 });
 
+            modelBuilder.Entity("IndieProjects.Model.ArticleCommentaries", b =>
+                {
+                    b.HasOne("IndieProjects.Model.Article", "Article")
+                        .WithMany("Commentaries")
+                        .HasForeignKey("ArticleID");
+
+                    b.HasOne("IndieProjects.Model.User", "Author")
+                        .WithMany()
+                        .HasForeignKey("AuthorId");
+
+                    b.HasOne("IndieProjects.Model.ArticleCommentaries", "ParentCommentary")
+                        .WithMany("ChildsCommentary")
+                        .HasForeignKey("ParentCommentaryID");
+                });
+
             modelBuilder.Entity("IndieProjects.Model.ChatMessage", b =>
                 {
                     b.HasOne("IndieProjects.Model.User", "Author")
@@ -422,25 +455,6 @@ namespace IndieProjects.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("IndieProjects.Model.Commentary", b =>
-                {
-                    b.HasOne("IndieProjects.Model.Article", "Article")
-                        .WithMany("Commentaries")
-                        .HasForeignKey("ArticleID");
-
-                    b.HasOne("IndieProjects.Model.User", "Author")
-                        .WithMany("Commentaries")
-                        .HasForeignKey("AuthorId");
-
-                    b.HasOne("IndieProjects.Model.Project", "Project")
-                        .WithMany("Commentaries")
-                        .HasForeignKey("ProjectID");
-
-                    b.HasOne("IndieProjects.Model.Commentary", "SelfCommentary")
-                        .WithMany()
-                        .HasForeignKey("SelfCommentaryID");
-                });
-
             modelBuilder.Entity("IndieProjects.Model.DeveloperProject", b =>
                 {
                     b.HasOne("IndieProjects.Model.Project", "Project")
@@ -450,7 +464,8 @@ namespace IndieProjects.Migrations
 
                     b.HasOne("IndieProjects.Model.User", "User")
                         .WithMany("Projects")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("IndieProjects.Model.Message", b =>
@@ -467,18 +482,34 @@ namespace IndieProjects.Migrations
                         .HasForeignKey("ProjectManagerId");
                 });
 
+            modelBuilder.Entity("IndieProjects.Model.ProjectCommentaries", b =>
+                {
+                    b.HasOne("IndieProjects.Model.User", "Author")
+                        .WithMany("Commentaries")
+                        .HasForeignKey("AuthorId");
+
+                    b.HasOne("IndieProjects.Model.ProjectCommentaries", "ParentCommentary")
+                        .WithMany("ChildsCommentary")
+                        .HasForeignKey("ParentCommentaryID");
+
+                    b.HasOne("IndieProjects.Model.Project", "Project")
+                        .WithMany("Commentaries")
+                        .HasForeignKey("ProjectID");
+                });
+
+            modelBuilder.Entity("IndieProjects.Model.Summary", b =>
+                {
+                    b.HasOne("IndieProjects.Model.User", "Developer")
+                        .WithOne("Summary")
+                        .HasForeignKey("IndieProjects.Model.Summary", "UserID")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("IndieProjects.Model.Tag", b =>
                 {
                     b.HasOne("IndieProjects.Model.Article")
                         .WithMany("Tags")
                         .HasForeignKey("ArticleID");
-                });
-
-            modelBuilder.Entity("IndieProjects.Model.User", b =>
-                {
-                    b.HasOne("IndieProjects.Model.Summary", "Summary")
-                        .WithOne("Developer")
-                        .HasForeignKey("IndieProjects.Model.User", "SummaryUserID");
                 });
 
             modelBuilder.Entity("IndieProjects.Model.Vakanci", b =>

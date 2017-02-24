@@ -1,0 +1,14 @@
+﻿@model IEnumerable<IndieProjects.Model.Project>
+
+<div>
+    <a href="~/Project/AddProject/">Создать проект</a>
+    @foreach (var proj in Model)
+    {
+        <div>
+            <label>@proj.Name</label><br />
+            <div>@Html.Raw(proj.Description)</div>
+            <label>@proj.Likes</label>
+            <a href="~/Project/CurrentProjectPage/@proj.ProjectID">Перейти</a>
+        </div>
+    }
+</div>

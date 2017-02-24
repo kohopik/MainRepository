@@ -1,0 +1,15 @@
+﻿@model IEnumerable<IndieProjects.Model.Article>
+
+<div>
+    <a href="~/Account/AddArticle/">Написать статью</a>
+    @foreach (var article in Model)
+    {
+        <div>
+            <label>@article.Title</label><br />
+            <label id="txt"></label><br />
+            @Html.Raw(article.Content)
+            <label>@article.Likes</label>
+            <a href="~/Home/CurrentArticle/@article.ID">Перейти</a>
+        </div><br />
+    }
+</div>

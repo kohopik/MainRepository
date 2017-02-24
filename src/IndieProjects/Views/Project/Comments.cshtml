@@ -1,12 +1,86 @@
-﻿@model IEnumerable<IndieProjects.Model.Commentary>
+﻿@model IEnumerable<IndieProjects.Model.ProjectCommentaries>
 
-<table>
-    @foreach (var comment in Model)
-    {
-        <tr>
-            <td>@comment?.Author?.NickName</td>
-            <td>@comment.Content</td>
-            <td>@comment.DateSend</td>
-        </tr>
-    }
-</table>
+<div class="panel">
+    <div class="panel-body">
+        @foreach (var com in Model)
+        {
+            if (com.ParentCommentary == null)
+            {
+                <div class="media-block">
+                    <a class="media-left" href="/Home/CurrentUserProfile/@com.Author.Id"><img class="img-circle img-sm" src="~/@com.Author.Avatar"></a>
+                    <div class="media-body">
+                        <div class="mar-btm">
+                            <a href="/Home/CurrentUserProfile/@com.Author.Id" class="btn-link text-semibold media-heading box-inline">@com.Author.NickName</a>
+                            <p class="text-muted text-sm"><i class="fa fa-mobile fa-lg"></i>@com.DateSend.Date</p>
+                        </div>
+                        <p>@com.Content</p>
+                        <div class="pad-ver">
+                            <a class="btn btn-sm btn-default btn-hover-primary Mainanswer">Ответить</a>
+                        </div>
+                        <form class="commentform" asp-action="AddSelfCommentToProject" method="post">
+                            <div class="panel selfcomment">
+                                <div class="panel-body">
+                                    <input type="hidden" name="idSelfComment" value="@com.ID" />
+                                    <textarea name="txt" class="form-control" rows="2" placeholder="Добавьте Ваш комментарий"></textarea>
+                                    <div class="mar-top clearfix">
+                                        <button class="btn btn-sm btn-primary pull-right" type="submit"><i class="fa fa-pencil fa-fw"></i> Добавить</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        <hr>
+                        <!-- Комментарий -->
+                        <div>
+                            @foreach (var self in com.ChildsCommentary)
+                            {
+                          <!--Блок с комментарием-->
+                                <div class="media-block">
+                                    <a class="media-left" href="/Home/CurrentUserProfile/@self.Author.Id"><img class="img-circle img-sm" src="~/@self.Author.Avatar"></a>
+                                    <div class="media-body">
+                                        <div class="mar-btm">
+                                            <a href="/Home/CurrentUserProfile/@self.Author.Id" class="btn-link text-semibold media-heading box-inline">@self.Author.NickName</a>
+                                            <p class="text-muted text-sm"><i class="fa fa-mobile fa-lg"></i>@self.DateSend</p>
+                                        </div>
+                                        <p>@self.Content</p>
+                                        <div class="pad-ver">
+                                            <a class="btn btn-sm btn-default btn-hover-primary answer">Ответить</a>
+                                        </div>
+                                        <hr>
+                                    </div>
+                                    @if (User.Identity.IsAuthenticated)
+                                    {
+                                        <form class="commentform" asp-action="AddSelfCommentToProject" method="post">
+                                            <div class="panel selfcomment">
+                                                <div class="panel-body">
+                                                    <input type="hidden" name="idSelfComment" value="@com.ID" />
+                                                    <textarea name="txt" class="form-control" rows="2" placeholder="Добавьте Ваш комментарий"></textarea>
+                                                    <div class="mar-top clearfix">
+                                                        <button class="btn btn-sm btn-primary pull-right" type="submit"><i class="fa fa-pencil fa-fw"></i> Добавить</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    }
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+         $('.selfcomment').hide();
+    });
+    $('.answer').click(function () {
+        $('.selfcomment').hide();
+        $(this).parent('.pad-ver').parent('.media-body').parent('.media-block').children('.commentform').children('.selfcomment').show();
+    });
+    $('.Mainanswer').click(function () {
+        $('.selfcomment').hide();
+        $(this).parent('.pad-ver').parent('.media-body').children('.commentform').children('.selfcomment').show();
+    });
+</script>

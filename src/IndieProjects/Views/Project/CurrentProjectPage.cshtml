@@ -1,12 +1,12 @@
 ﻿@model IndieProjects.Model.Project
 
-        <input type="hidden" name="idProject" value="@Model.ProjectID"/>
-        <img class="img-rounded img-responsive" src="@Model.Avatar"><br />
-        <label id="Name">@Model.Name</label><br />
-        <label id="Links"/><br />
-        <label>Описание:</label>@Html.Raw(Model.Description)
-        <label>Понравилось - @Model.Likes людям</label><br />
-        <label>Вакансии: </label>
+<input type="hidden" name="idProject" value="@Model.ProjectID"/>
+<img class="img-rounded img-responsive" src="~/@Model.Avatar"><br />
+<label id="Name">@Model.Name</label><br />
+<label id="Links"/></label><br />
+<label>Описание:</label>@Html.Raw(Model.Description)
+<label>Понравилось - @Model.Likes людям</label><br />
+<label>Вакансии: </label>
         @if (Model.Vakancies != null)
         {
             @foreach (var vac in Model.Vakancies)
@@ -16,21 +16,28 @@
         }
         <label>Статус - @Model.StatusProject</label><br />
 <label>Комментарии</label>
+
 @if (User.Identity.IsAuthenticated)
 {
     <form asp-action="AddCommentToProject" method="post">
-        <input type="text" name="txt" />
-        <input type="hidden" name="id" value="@Model.ProjectID" />
-        <input type="submit" value="Добавить" />
+        <div class="panel">
+            <div class="panel-body">
+                <input type="hidden" name="id" value="@Model.ProjectID" />
+                <textarea name="txt" class="form-control" rows="2" placeholder="Добавьте Ваш комментарий"></textarea>
+                <div class="mar-top clearfix">
+                    <button class="btn btn-sm btn-primary pull-right" type="submit"><i class="fa fa-pencil fa-fw"></i> Добавить</button>
+                </div>
+            </div>
+        </div>
     </form>
 }
-
 <div id="comments">
 
 </div>
 
 <script>
-    function show() {
+
+    $(document).ready(function () {
         $.ajax({
             url: '/Project/Comments/' + $('input[name="idProject"]').val(),
             contentType: 'application/html; charset=utf-8',
@@ -40,10 +47,5 @@
                 $('#comments').html(result);
             }
         });
-    }
-
-    $(document).ready(function () {
-        show();
-        setInterval('show()', 7000);
     });
 </script>

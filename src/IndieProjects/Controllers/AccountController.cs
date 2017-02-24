@@ -12,6 +12,7 @@ using System.IO;
 using Microsoft.AspNetCore.Identity;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Http;
+using ImageMagick;
 using IndieProjects.Model;
 using IndieProjects.ViewModel;
 
@@ -19,7 +20,7 @@ namespace IndieProjects.Controllers
 {
     public class AccountController : Controller
     {
-        IndieContext indieContext;
+        IndieContext context;
 
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
@@ -28,24 +29,17 @@ namespace IndieProjects.Controllers
 
         public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, IndieContext context, IHostingEnvironment appEnvironment)
         {
-            indieContext = context;
+            this.context = context;
             _userManager = userManager;
             _signInManager = signInManager;
             _appEnviroment = appEnvironment;
         }
 
-        public async Task<IActionResult> MyArticles()
+        public async Task<PartialViewResult> _MyArticles()
         {
             User user = await _userManager.FindByNameAsync(User.Identity.Name);
-            List<Article> articles = indieContext.Articles.Where(x => x.Author == user).ToList();
-            return View(articles);
-        }
-        [HttpGet]
-        public async Task<JsonResult> MyProject()
-        {
-            User user = await _userManager.FindByNameAsync(User.Identity.Name);
-            List<Project> projects = indieContext.Projects.Where(x => x.ProjectManager == user).ToList();
-            return Json(projects);
+                List<Article> articles = context.Articles.Where(x => x.Author == user).ToList();
+                return PartialView(articles);
         }
 
         public async Task<IActionResult> Messages()
@@ -54,76 +48,49 @@ namespace IndieProjects.Controllers
             return View();
         }
 
-        public Bitmap ResizeImage(Image image, int width, int height)
-        {
-            var destRect = new Rectangle(0, 0, width, height);
-            var destImage = new Bitmap(width, height);
-
-            destImage.SetResolution(image.HorizontalResolution, image.VerticalResolution);
-
-            using (var graphics = Graphics.FromImage(destImage))
-            {
-                graphics.CompositingMode = CompositingMode.SourceCopy;
-                graphics.CompositingQuality = CompositingQuality.HighQuality;
-                graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                graphics.SmoothingMode = SmoothingMode.HighQuality;
-                graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
-
-                using (var wrapMode = new ImageAttributes())
-                {
-                    wrapMode.SetWrapMode(WrapMode.TileFlipXY);
-                    graphics.DrawImage(image, destRect, 0, 0, image.Width, image.Height, GraphicsUnit.Pixel, wrapMode);
-                }
-            }
-
-            return destImage;
-        }
-
         [HttpPost]
         public async Task<string> AddAvatar([FromBody] AvatarWithParameters parameter)
         {
-            string base64 = parameter.Avatar.Remove(0, parameter.Avatar.IndexOf("base64") + 7);
-            var bytes = Convert.FromBase64String(base64);
-            MemoryStream mStream = new MemoryStream();
-            await mStream.WriteAsync(bytes, 0, Convert.ToInt32(bytes.Length));
-            Bitmap bm = new Bitmap(mStream, false);
-            ImageFormat img = bm.RawFormat;
-            if(bm.Width != parameter.width || bm.Height != parameter.height)
-            {
-                 bm = ResizeImage(bm, parameter.width, parameter.height);
-            }
-            Rectangle cropRect = new Rectangle(parameter.x1, parameter.y1, parameter.x2 - parameter.x1, parameter.y2 - parameter.y1);
-            Bitmap target = new Bitmap(cropRect.Width, cropRect.Height);
-            using (Graphics g = Graphics.FromImage(target))
-            {
-                g.DrawImage(bm, new Rectangle(0, 0, target.Width, target.Height),
-                                 cropRect,
-                                 GraphicsUnit.Pixel);
-            }
-            User user = await _userManager.FindByNameAsync(User.Identity.Name);
-            User Currentuser = indieContext.Users.FirstOrDefault(x => x.Id == user.Id);
-            string newPath = @"images/avatars/" + user.Id.ToString();
-            if (ImageFormat.Jpeg.Equals(img))
-            {
-                target.Save(_appEnviroment.WebRootPath + "\\images\\avatars\\"+ Currentuser.Id.ToString() + ".jpeg" , System.Drawing.Imaging.ImageFormat.Jpeg);
-                newPath += ".jpeg";
-            }
-            if (ImageFormat.Png.Equals(img))
-            {
-                target.Save(_appEnviroment.WebRootPath + "\\images\\avatars\\" + Currentuser.Id.ToString() + ".png", System.Drawing.Imaging.ImageFormat.Png);
-                newPath += ".png";
-            }
-            if(ImageFormat.Bmp.Equals(img))
-            {
-                target.Save(_appEnviroment.WebRootPath + "\\images\\avatars\\" + Currentuser.Id.ToString() + ".bmp", System.Drawing.Imaging.ImageFormat.Bmp);
-                newPath += ".bmp";
-            }
-            mStream.Dispose();
-            bm.Dispose();
-            target.Dispose();
-            Currentuser.Avatar = newPath;
-            await indieContext.SaveChangesAsync();
-            return "Успешно";
+                string base64 = parameter.Avatar.Remove(0, parameter.Avatar.IndexOf("base64") + 7);
+                var bytes = Convert.FromBase64String(base64);
+                MemoryStream mStream = new MemoryStream();
+                await mStream.WriteAsync(bytes, 0, Convert.ToInt32(bytes.Length));
+                User user = await _userManager.FindByNameAsync(User.Identity.Name);
+                User Currentuser = context.Users.FirstOrDefault(x => x.Id == user.Id);
+                string newPath = @"images/avatars/" + user.Id.ToString();
+                using (MagickImage image = new MagickImage(mStream))
+                {
+                    image.Resize(parameter.width, parameter.height);
+                    image.Crop(parameter.x1, parameter.y1, parameter.x2 - parameter.x1, parameter.y2 - parameter.y1);
+                    switch(image.Format)
+                    {
+                        case MagickFormat.Jpeg:
+                            image.Write(_appEnviroment.WebRootPath + "\\images\\avatars\\" + Currentuser.Id.ToString() + ".jpeg");
+                            newPath += ".jpeg";
+                            break;
+                        case MagickFormat.Jpg:
+                            image.Write(_appEnviroment.WebRootPath + "\\images\\avatars\\" + Currentuser.Id.ToString() + ".jpg");
+                            newPath += ".jpg";
+                            break;
+                        case MagickFormat.Png:
+                            image.Write(_appEnviroment.WebRootPath + "\\images\\avatars\\" + Currentuser.Id.ToString() + ".png");
+                            newPath += ".png";
+                            break;
+                        case MagickFormat.Bmp:
+                            image.Write(_appEnviroment.WebRootPath + "\\images\\avatars\\" + Currentuser.Id.ToString() + ".bmp");
+                            newPath += ".bmp";
+                            break;
+                        case MagickFormat.Gif:
+                            image.Write(_appEnviroment.WebRootPath + "\\images\\avatars\\" + Currentuser.Id.ToString() + ".gif");
+                            newPath += ".gif";
+                            break;
+                    }
+                }
+                mStream.Dispose();
+                Currentuser.Avatar = newPath;
+                await context.SaveChangesAsync();
+                
+                return "Успешно";
         }
 
         public IActionResult AddArticle()
@@ -131,28 +98,24 @@ namespace IndieProjects.Controllers
             return View();
         }
 
-        public PartialViewResult Comments(int id)
-        {
-            List<Commentary> comments = indieContext.Commentaries.Include(x => x.Author).Include(x => x.Article).Where(x => x.Article.ID == id).ToList();
-            return PartialView(comments);
-        }
-
         [HttpPost]
         public async Task<IActionResult> AddArticle(Article article)
         {
             User user = await _userManager.FindByNameAsync(User.Identity.Name);
-            indieContext.Articles.Add(new Article()
+            Article _article = new Article()
             {
                 Author = user,
                 Content = article.Content,
                 Title = article.Title,
                 DateOfPublish = DateTime.Now,
-                Commentaries = new List<Commentary>(),
+                Commentaries = new List<ArticleCommentaries>(),
                 Likes = 0,
                 Tags = new List<Tag>()
-            });
-            await indieContext.SaveChangesAsync();
-            return RedirectToAction("MyArticles", "Account");
+            };
+            context.Articles.Add(_article);
+            user.Articles.Add(_article);
+            await context.SaveChangesAsync();
+            return RedirectToAction("MainAccountProfile", "Account");
         }
 
         [HttpPost]
@@ -170,56 +133,42 @@ namespace IndieProjects.Controllers
         }
 
         [HttpPost]
-        public IActionResult ChangeInformation(User user)
+        public async Task<IActionResult> ChangeInformation(User user)
         {
-            User Currentuser = indieContext.Users.FirstOrDefault(x => x.Id == user.Id);
-            Currentuser.City = user.City;
-            Currentuser.Avatar = user.Avatar;
-            Currentuser.AboutMe = user.Avatar;
-            Currentuser.Country = user.Country;
-            Currentuser.FIO = user.FIO;
-            Currentuser.OwnSite = user.OwnSite;
-            Currentuser.Skype = user.Skype;
-            indieContext.SaveChangesAsync();
-            return RedirectToAction("ProfileChanges");
-        }
-
-        public ActionResult AvatarEdit()
-        {
-           return PartialView();
-        }
-
-        public ActionResult AvatarEditAdd()
-        {
-            return PartialView();
+            if (!User.Identity.IsAuthenticated)
+                return RedirectToAction("Index", "Home");
+                User Currentuser = await _userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                if (Currentuser != null)
+                {
+                    Currentuser.City = user.City;
+                    Currentuser.Avatar = user.Avatar;
+                    Currentuser.AboutMe = user.Avatar;
+                    Currentuser.Country = user.Country;
+                    Currentuser.FIO = user.FIO;
+                    Currentuser.OwnSite = user.OwnSite;
+                    Currentuser.Skype = user.Skype;
+                    await _userManager.UpdateAsync(Currentuser);
+                    return RedirectToAction("MainAccountProfile");
+                }
+                else
+                    return RedirectToAction("Error");
         }
 
         public async Task<IActionResult> ProfileChanges()
         {
+            if (!User.Identity.IsAuthenticated)
+                return RedirectToAction("Index", "Home");
             User user = await _userManager.FindByNameAsync(User.Identity.Name);
-            return View(user);
+                return View(user);
         }
-        
-        public async Task<IActionResult> MyProjects()
+
+        public async Task<IActionResult> MainAccountProfile()
         {
+            if (!User.Identity.IsAuthenticated)
+                return RedirectToAction("Index", "Home");
             User user = await _userManager.FindByNameAsync(User.Identity.Name);
-            List<Project> projects = indieContext.Projects.Where(x => x.ProjectManager == user).ToList();
-            return View(projects);
-        }
-
-        public IActionResult AboutMe()
-        {
-            return PartialView("_About");
-        }
-
-        public PartialViewResult _AboutMe()
-        {
-            return PartialView();
-        }
-
-        public IActionResult MainAccountProfile()
-        {
-            return View();
+                user = context.Users.Include(x => x.Articles).Include(x => x.Projects).Include(x => x.Messages).Where(x => x.Id == user.Id).First();
+                return View(user);
         }
 
         public IActionResult Register()
@@ -230,7 +179,7 @@ namespace IndieProjects.Controllers
         public async Task<IActionResult> AccountProfile()
         {
             if (!User.Identity.IsAuthenticated)
-                return RedirectToAction("Register");
+                return RedirectToAction("Index", "Home");
             User user = await _userManager.FindByNameAsync(User.Identity.Name);
             ViewBag.User = user;
             return View();
@@ -241,7 +190,7 @@ namespace IndieProjects.Controllers
         {
             if (ModelState.IsValid)
             {
-                User user = new User { NickName = Login, Email = Email, UserName = Login };
+                User user = new User { NickName = Login, Email = Email, UserName = Login, Avatar = @"\images\static\Noname.png" };
                 // добавляем пользователя
                 var result = await _userManager.CreateAsync(user, Password);
                 if (result.Succeeded)
@@ -259,6 +208,13 @@ namespace IndieProjects.Controllers
                 }
             }
             return View();
+        }
+
+        public async Task<PartialViewResult> _MyProjects()
+        {
+            User user = await _userManager.FindByNameAsync(User.Identity.Name);
+            List<Project> projects = context.Projects.Where(x => x.ProjectManager == user).ToList();
+            return PartialView(projects);
         }
 
         [HttpGet]
@@ -287,7 +243,6 @@ namespace IndieProjects.Controllers
         }
         
         [HttpPost]
-        //[ValidateAntiForgeryToken]
         public async Task<IActionResult> LogOff()
         {
             await _signInManager.SignOutAsync();

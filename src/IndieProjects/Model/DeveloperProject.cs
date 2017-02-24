@@ -10,10 +10,8 @@ namespace IndieProjects.Model
 {
     public class DeveloperProject
     {
-        [Key]
-        public int DeveloperProjectID { get; set; }
+        public string UserId { get; set; }
         public User User { get; set; }
-        [ForeignKey("Project")]
         public int ProjectID { get; set; }
         public Project Project { get; set; }
     }

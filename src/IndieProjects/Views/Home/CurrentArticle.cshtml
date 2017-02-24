@@ -8,20 +8,31 @@
 </div>
 <label>Понравилось - @Model.Likes людям</label><br />
 <label>Комментарии</label>
+
 @if (User.Identity.IsAuthenticated)
 {
     <form asp-action="AddCommentToArticle" method="post">
-        <input type="text" name="txt" />
-        <input type="hidden" name="id" value="@Model.ID" />
-        <input type="submit" value="Добавить" />
+        <div class="panel">
+            <div class="panel-body">
+                <input type="hidden" name="id" value="@Model.ID" />
+                <textarea name="txt" class="form-control" rows="2" placeholder="Добавьте Ваш комментарий"></textarea>
+                <div class="mar-top clearfix">
+                    <button class="btn btn-sm btn-primary pull-right" type="submit"><i class="fa fa-pencil fa-fw"></i> Добавить</button>
+                </div>
+            </div>
+        </div>
     </form>
 }
-<div id="comments"></div>
+
+<div id="comments">
+
+</div>
 
 <script>
-    function show() {
+
+    $(document).ready(function () {
         $.ajax({
-            url: '/Account/Comments/' + $('input[name="idArticle"]').val(),
+            url: '/Home/Comments/' + $('input[name="idArticle"]').val(),
             contentType: 'application/html; charset=utf-8',
             type: 'GET',
             dataType: 'html',
@@ -29,10 +40,5 @@
                 $('#comments').html(result);
             }
         });
-    }
-
-    $(document).ready(function () {
-        show();
-        setInterval('show()', 7000);
     });
 </script>

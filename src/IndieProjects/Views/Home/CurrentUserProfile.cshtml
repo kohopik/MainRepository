@@ -1,0 +1,103 @@
+﻿@model IndieProjects.Model.User
+
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+<div class="tabsblock">
+  
+    <div class="col-lg-3 col-md-4">
+        <div class="text-center card-box">
+            <div class="member-card">
+                <div class="thumb-xl member-thumb m-b-10 center-block">
+                    <img src="~/@Model.Avatar" class="img-circle img-thumbnail" alt="profile-image">
+                    <a class="btn btn-primary" data-toggle="modal" data-target="#gridSystemModal">изменить</a>
+                </div>
+
+                <div class="">
+                    <h4 class="m-b-5">@User.Identity.Name</h4>
+                    <p class="text-muted"></p>
+                </div>
+
+                <button type="button" class="btn btn-success btn-sm w-sm waves-effect m-t-10 waves-light">Чаты</button>
+                <button id="MsgButton" type="button" class="btn btn-danger btn-sm w-sm waves-effect m-t-10 waves-light">Сообщения</button>
+
+                <div class="text-left m-t-40">
+                    @if (Model.FIO != null)
+                    {
+                        <p class="text-muted font-13"><strong>Имя :</strong> <span class="m-l-15">Johnathan Deo</span></p>
+                    }
+                    @if (Model.PhoneNumber != null)
+                    {
+                        <p class="text-muted font-13"><strong>Телефон :</strong><span class="m-l-15">@Model.PhoneNumber</span></p>
+                    }
+                    <p class="text-muted font-13"><strong>Email :</strong> <span class="m-l-15">@Model.Email</span></p>
+                    @if (Model.City != null)
+                    {
+                        <p class="text-muted font-13"><strong>Город :</strong> <span class="m-l-15">@Model.City</span></p>
+                    }
+                    @if (Model.Country != null)
+                    {
+                        <p class="text-muted font-13"><strong>Страна :</strong> <span class="m-l-15">USA</span></p>
+                    }
+                </div>
+
+                <ul class="social-links list-inline m-t-30">
+                    <li>
+                        <a title="" data-placement="top" data-toggle="tooltip" class="tooltips" href="" data-original-title="Facebook"><i class="fa fa-facebook"></i></a>
+                    </li>
+                    <li>
+                        <a title="" data-placement="top" data-toggle="tooltip" class="tooltips" href="" data-original-title="Twitter"><i class="fa fa-twitter"></i></a>
+                    </li>
+                    <li>
+                        <a title="" data-placement="top" data-toggle="tooltip" class="tooltips" href="" data-original-title="Skype"><i class="fa fa-skype"></i></a>
+                    </li>
+                </ul>
+            </div>
+        </div> <!-- end card-box -->
+    </div> <!-- end col -->
+
+
+    <div class="col-md-8 col-lg-9">
+        <div class="" id="MainPersonContent">
+            <div class="">
+                <ul class="nav nav-tabs navtab-custom">
+                    <li class="active">
+                        <a href="#home" data-toggle="tab" aria-expanded="false">
+                            <span class="visible-xs"><i class="fa fa-user"></i></span>
+                            <span class="hidden-xs">ОБО МНЕ</span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a href="#activity" data-toggle="tab" aria-expanded="false">
+                            <span class="visible-xs"><i class="fa fa-bell"></i></span>
+                            <span class="hidden-xs">АКТИВНОСТЬ</span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a href="#profile" data-toggle="tab" aria-expanded="true">
+                            <span class="visible-xs"><i class="fa fa-photo"></i></span>
+                            <span class="hidden-xs">ПОРТФОЛИО</span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a id="projects" href="#projectsBlock" data-toggle="tab" aria-expanded="false">
+                            <span class="visible-xs"><i class="fa fa-desktop"></i></span>
+                            <span class="hidden-xs">ПРОЕКТЫ</span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a id="articles" href="#articlesBlock" data-toggle="tab" aria-expanded="false">
+                            <span class="visible-xs"><i class="fa fa-edit"></i></span>
+                            <span class="hidden-xs">СТАТЬИ</span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a href="#settings" data-toggle="tab" aria-expanded="false">
+                            <span class="visible-xs"><i class="fa fa-cog"></i></span>
+                            <span class="hidden-xs">НАСТРОЙКИ</span>
+                        </a>
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+    </div> <!-- end col -->
+</div>

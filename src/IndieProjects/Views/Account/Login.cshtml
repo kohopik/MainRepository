@@ -1,7 +1,6 @@
 ﻿@model IndieProjects.ViewModel.LoginViewModel
 
-<form id="login" method="post" asp-controller="Account" asp-action="Login"
-      asp-route-returnUrl="@Model.ReturnUrl">
+<form id="login" method="post" asp-controller="Account" asp-action="Login">
     <h1>Авторизация</h1>
     <div asp-validation-summary="ModelOnly"></div>
     <fieldset id="inputs">

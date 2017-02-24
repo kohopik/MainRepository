@@ -1,20 +1,4 @@
 ﻿@model IndieProjects.Model.User
-
-<li><a href="~/Account/AboutMe">Обо мне</a></li>
-<li><a href="~/Account/Notification">Активность</a></li>
-<li><a href="~/Account/MyProjects">Мои проекты</a></li>
-<li><a href="~/Account/ProfileChanges">Редактировать профиль</a></li>
-
-
-
-<h1>Личная информация о пользователе</h1>
-<div id="modDialog" class="modal fade">
-    <div id="dialogContent" class="modal-dialog"></div>
-</div>
-<div class="AvatarOnProfile">
-    <img id="#avatar" class="img-circle" src="~/@Model.Avatar" width="150" height="150" />
-    <a class="btn btn-primary" data-toggle="modal" data-target="#gridSystemModal">изменить</a>
-</div>
 <form id="MyInformation" method="post" asp-controller="Account" asp-action="ChangeInformation">
     <div class="form-group">
         <label for="NickName">Логин</label>
@@ -46,42 +30,6 @@
     </div>
     <input id="submit" type="submit" value="Сохранить изменения" />
 </form>
-
-<!--Модальное окно с изображением-->
-<div class="modal fade" tabindex="-1" role="dialog" id="ModalContentWithImage" aria-labelledby="gridModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content" id="imagecont">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="gridModalLabel">Загрузка новой фотографии</h4>
-            </div>
-            <div class="modal-body" id="divWithImg">
-                <img id="target" class="center-block" src="" alt="" /><br />
-                <input type="submit" id="clack" value="Загрузить" />
-            </div>
-        </div>
-    </div>
-</div>
-
-<!--Предварительное окно загрузки изображения-->
-<div id="gridSystemModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="gridModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header center-block">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="gridModalLabel">Загрузка новой фотографии</h4>
-            </div>
-            <div class="modal-body">
-                <div class="container-fluid bd-example-row center-block">
-                    <div>
-                        Вы можете загрузить фотографию форматов .JPG, .PNG, .JPEG
-                    </div>
-                    <input type="file" id="imgInput" title="Tag" />
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 
 <script>
     var localvariable;
@@ -138,7 +86,7 @@
         imgarea = $('#target').imgAreaSelect(
             {
                 instance: true,
-                aspectRatio: '4:3', handles: true,
+                aspectRatio: '4:4', handles: true,
                 onSelectEnd: function(img,selection)
                 {
                     send = { Avatar: localvariable, x1: selection.x1, x2: selection.x2, y1: selection.y1, y2: selection.y2, height: $('#target').height(), width: $('#target').width() };
@@ -146,4 +94,3 @@
             });
     });
 </script>
-

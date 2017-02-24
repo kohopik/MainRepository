@@ -5,13 +5,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using IndieProjects.Model;
 using Microsoft.AspNetCore.Identity;
+using ImageMagick;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
-using System.Drawing;
-using System.Drawing.Imaging;
 using IndieProjects.ViewModel;
-using System.Drawing.Drawing2D;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -51,11 +49,9 @@ namespace IndieProjects.Controllers
         public async Task<IActionResult> AddProject(Project project)
         {
             User user = await _userManager.FindByNameAsync(User.Identity.Name);
-            string Avatar = await AddAvatar(project.Avatar);
             Project myProject = new Project()
             {
                 ProjectManager = user,
-                Avatar = Avatar,
                 Links = project.Links,
                 Description = project.Description,
                 StatusProject = project.StatusProject,
@@ -64,59 +60,55 @@ namespace IndieProjects.Controllers
                 Team = new List<DeveloperProject>(),
                 Vakancies = new List<Vakanci>()
             };
+            context.Projects.Add(myProject);
             await context.SaveChangesAsync();
+            user.Projects.Add(new DeveloperProject()
+            {
+                Project = myProject,
+                User = user
+            });
+            Project proj = context.Projects.Where(x => x.Name == project.Name).First();
+            AddAvatar(project.Avatar,proj);
             return RedirectToAction("MyProjects","Account");
         }
 
         [HttpPost]
-        public async Task<string> AddAvatar(string Avatar)
+        public async void AddAvatar(string Avatar,Project project)
         {
             string base64 = Avatar.Remove(0, Avatar.IndexOf("base64") + 7);
             var bytes = Convert.FromBase64String(base64);
             MemoryStream mStream = new MemoryStream();
             await mStream.WriteAsync(bytes, 0, Convert.ToInt32(bytes.Length));
-            Bitmap bm = new Bitmap(mStream, false);
-
-            var destImage = new Bitmap(bm.Width, bm.Height);
-
-            destImage.SetResolution(bm.HorizontalResolution, bm.VerticalResolution);
-
-            using (var graphics = Graphics.FromImage(destImage))
+            string newPath = @"images/projects/" + project.ProjectID.ToString();
+            using (MagickImage image = new MagickImage(mStream))
             {
-                graphics.CompositingMode = CompositingMode.SourceCopy;
-                graphics.CompositingQuality = CompositingQuality.HighQuality;
-                graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                graphics.SmoothingMode = SmoothingMode.HighQuality;
-                graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
-
-                using (var wrapMode = new ImageAttributes())
+                switch (image.Format)
                 {
-                    wrapMode.SetWrapMode(WrapMode.TileFlipXY);
-                    graphics.DrawImage(bm, new Rectangle(0,0,bm.Width,bm.Height), 0, 0, bm.Width, bm.Height, GraphicsUnit.Pixel, wrapMode);
+                    case MagickFormat.Jpeg:
+                        image.Write(_appEnviroment.WebRootPath + "\\images\\projects\\" + project.ProjectID.ToString() + ".jpeg");
+                        newPath += ".jpeg";
+                        break;
+                    case MagickFormat.Jpg:
+                        image.Write(_appEnviroment.WebRootPath + "\\images\\projects\\" + project.ProjectID.ToString() + ".jpg");
+                        newPath += ".jpg";
+                        break;
+                    case MagickFormat.Png:
+                        image.Write(_appEnviroment.WebRootPath + "\\images\\projects\\" + project.ProjectID.ToString() + ".png");
+                        newPath += ".png";
+                        break;
+                    case MagickFormat.Bmp:
+                        image.Write(_appEnviroment.WebRootPath + "\\images\\projects\\" + project.ProjectID.ToString() + ".bmp");
+                        newPath += ".bmp";
+                        break;
+                    case MagickFormat.Gif:
+                        image.Write(_appEnviroment.WebRootPath + "\\images\\projects\\" + project.ProjectID.ToString() + ".gif");
+                        newPath += ".gif";
+                        break;
                 }
             }
-            ImageFormat img = bm.RawFormat;
-            string newPath = @"images/projects/" + Avatar;
-            if (ImageFormat.Jpeg.Equals(img))
-            {
-                destImage.Save(_appEnviroment.WebRootPath + "\\images\\projects\\" + Avatar + ".jpeg", System.Drawing.Imaging.ImageFormat.Jpeg);
-                newPath += ".jpeg";
-            }
-            if (ImageFormat.Png.Equals(img))
-            {
-                destImage.Save(_appEnviroment.WebRootPath + "\\images\\projects\\" + Avatar + ".png", System.Drawing.Imaging.ImageFormat.Png);
-                newPath += ".png";
-            }
-            if (ImageFormat.Bmp.Equals(img))
-            {
-                destImage.Save(_appEnviroment.WebRootPath + "\\images\\projects\\" + Avatar + ".bmp", System.Drawing.Imaging.ImageFormat.Bmp);
-                newPath += ".bmp";
-            }
             mStream.Dispose();
-            bm.Dispose();
-            destImage.Dispose();
+            project.Avatar = newPath;
             await context.SaveChangesAsync();
-            return newPath;
         }
 
         [HttpGet]
@@ -128,7 +120,7 @@ namespace IndieProjects.Controllers
 
         public PartialViewResult Comments(int id)
         {
-            List<Commentary> comments = context.Commentaries.Include(x => x.Author).Include(x => x.Project).Where(x => x.Project.ProjectID == id).ToList();
+            List<ProjectCommentaries> comments = context.ProjectCommentaries.Include(x => x.Author).Include(x => x.Project).Where(x => x.Project.ProjectID == id).ToList();
             return PartialView(comments);
         }
 
@@ -136,7 +128,7 @@ namespace IndieProjects.Controllers
         {
             User user = await _userManager.FindByNameAsync(User.Identity.Name);
             Project currentProject = context.Projects.FirstOrDefault(x => x.ProjectID == id);
-            context.Commentaries.Add(new Commentary
+            context.ProjectCommentaries.Add(new ProjectCommentaries
             {
                 Content = txt,
                 Author = user,
@@ -145,6 +137,26 @@ namespace IndieProjects.Controllers
             });
             await context.SaveChangesAsync();
             return RedirectToAction("CurrentProjectPage/" + id.ToString(),"Project");
+        }
+
+        public async Task<IActionResult> AddSelfCommentToProject(string txt, int idSelfComment)
+        {
+            User user = await _userManager.FindByNameAsync(User.Identity.Name);
+            ProjectCommentaries SelfCommentary = context.ProjectCommentaries.Include(x => x.Project).Include(x => x.Author).Where(x => x.ID == idSelfComment).First();
+            if (SelfCommentary == null)
+                return RedirectToAction("Index", "Home");
+            ProjectCommentaries newComment = new ProjectCommentaries
+            {
+                Content = txt,
+                Author = user,
+                DateSend = DateTime.Now,
+                Project = SelfCommentary.Project,
+                ParentCommentary = SelfCommentary
+            };
+            context.ProjectCommentaries.Add(newComment);
+            SelfCommentary.ChildsCommentary.Add(newComment);
+            await context.SaveChangesAsync();
+            return RedirectToAction("CurrentProjectPage/" + SelfCommentary.Project.ProjectID.ToString(), "Project");
         }
     }
 }

@@ -12,7 +12,7 @@ namespace IndieProjects.Model
     {
         public Project()
         {
-            Commentaries = new List<Commentary>();
+            Commentaries = new List<ProjectCommentaries>();
             Team = new List<DeveloperProject>();
             Vakancies = new List<Vakanci>();
         }
@@ -26,7 +26,9 @@ namespace IndieProjects.Model
 
         public string Links { get; set; }
 
-        public ICollection<Commentary> Commentaries { get; set; }
+        public DateTime DateOfPublish { get; set; }
+
+        public ICollection<ProjectCommentaries> Commentaries { get; set; }
 
         public int Likes { get; set; }
 

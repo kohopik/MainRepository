@@ -28,7 +28,7 @@
     "Microsoft.EntityFrameworkCore.SqlServer": "1.0.0",
     "jQuery": "3.1.1",
     "Newtonsoft.Json": "9.0.1",
-    "ImageSharp": "1.0.0-alpha2-00078"
+    "Magick.NET.Core-Q8": "7.0.4.701"
   },
 
   "tools": {

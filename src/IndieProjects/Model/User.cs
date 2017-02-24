@@ -9,6 +9,14 @@ namespace IndieProjects.Model
 {
     public class User : IdentityUser
     {
+        public User()
+        {
+            Articles = new List<Article>();
+            Projects = new List<DeveloperProject>();
+            Messages = new List<Message>();
+            Commentaries = new List<ProjectCommentaries>();
+        }
+
         public string NickName { get; set; }
 
         public string FIO { get; set; }
@@ -33,7 +41,7 @@ namespace IndieProjects.Model
 
         public List<Article> Articles { get; set; }
 
-        public List<Commentary> Commentaries { get; set; }
+        public List<ProjectCommentaries> Commentaries { get; set; }
 
         public List<Message> Messages { get; set; }
 
