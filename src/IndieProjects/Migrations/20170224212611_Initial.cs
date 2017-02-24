@@ -10,49 +10,6 @@ namespace IndieProjects.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Summaries",
-                columns: table => new
-                {
-                    UserID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    AboutHimself = table.Column<string>(nullable: true),
-                    LinksToProject = table.Column<string>(nullable: true),
-                    SummaryStatus = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Summaries", x => x.UserID);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AspNetRoles",
-                columns: table => new
-                {
-                    Id = table.Column<string>(nullable: false),
-                    ConcurrencyStamp = table.Column<string>(nullable: true),
-                    Name = table.Column<string>(maxLength: 256, nullable: true),
-                    NormalizedName = table.Column<string>(maxLength: 256, nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AspNetRoles", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AspNetUserTokens",
-                columns: table => new
-                {
-                    UserId = table.Column<string>(nullable: false),
-                    LoginProvider = table.Column<string>(nullable: false),
-                    Name = table.Column<string>(nullable: false),
-                    Value = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AspNetUserTokens", x => new { x.UserId, x.LoginProvider, x.Name });
-                });
-
-            migrationBuilder.CreateTable(
                 name: "AspNetUsers",
                 columns: table => new
                 {
@@ -81,7 +38,6 @@ namespace IndieProjects.Migrations
                     SecurityStamp = table.Column<string>(nullable: true),
                     Skype = table.Column<string>(nullable: true),
                     Status = table.Column<int>(nullable: false),
-                    SummaryUserID = table.Column<int>(nullable: true),
                     ThePost = table.Column<string>(nullable: true),
                     TwoFactorEnabled = table.Column<bool>(nullable: false),
                     UserName = table.Column<string>(maxLength: 256, nullable: true)
@@ -89,33 +45,34 @@ namespace IndieProjects.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_AspNetUsers_Summaries_SummaryUserID",
-                        column: x => x.SummaryUserID,
-                        principalTable: "Summaries",
-                        principalColumn: "UserID",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "AspNetRoleClaims",
+                name: "AspNetRoles",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    ClaimType = table.Column<string>(nullable: true),
-                    ClaimValue = table.Column<string>(nullable: true),
-                    RoleId = table.Column<string>(nullable: false)
+                    Id = table.Column<string>(nullable: false),
+                    ConcurrencyStamp = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(maxLength: 256, nullable: true),
+                    NormalizedName = table.Column<string>(maxLength: 256, nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AspNetRoleClaims", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_AspNetRoleClaims_AspNetRoles_RoleId",
-                        column: x => x.RoleId,
-                        principalTable: "AspNetRoles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                    table.PrimaryKey("PK_AspNetRoles", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUserTokens",
+                columns: table => new
+                {
+                    UserId = table.Column<string>(nullable: false),
+                    LoginProvider = table.Column<string>(nullable: false),
+                    Name = table.Column<string>(nullable: false),
+                    Value = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUserTokens", x => new { x.UserId, x.LoginProvider, x.Name });
                 });
 
             migrationBuilder.CreateTable(
@@ -171,6 +128,7 @@ namespace IndieProjects.Migrations
                     ProjectID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Avatar = table.Column<string>(nullable: true),
+                    DateOfPublish = table.Column<DateTime>(nullable: false),
                     Description = table.Column<string>(nullable: true),
                     Likes = table.Column<int>(nullable: false),
                     Links = table.Column<string>(nullable: true),
@@ -187,6 +145,26 @@ namespace IndieProjects.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Summaries",
+                columns: table => new
+                {
+                    UserID = table.Column<string>(nullable: false),
+                    AboutHimself = table.Column<string>(nullable: true),
+                    LinksToProject = table.Column<string>(nullable: true),
+                    SummaryStatus = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Summaries", x => x.UserID);
+                    table.ForeignKey(
+                        name: "FK_Summaries_AspNetUsers_UserID",
+                        column: x => x.UserID,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -231,6 +209,27 @@ namespace IndieProjects.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "AspNetRoleClaims",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    ClaimType = table.Column<string>(nullable: true),
+                    ClaimValue = table.Column<string>(nullable: true),
+                    RoleId = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetRoleClaims", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AspNetRoleClaims_AspNetRoles_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "AspNetRoles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetUserRoles",
                 columns: table => new
                 {
@@ -252,6 +251,41 @@ namespace IndieProjects.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ArticleCommentaries",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    ArticleID = table.Column<int>(nullable: true),
+                    AuthorId = table.Column<string>(nullable: true),
+                    Content = table.Column<string>(nullable: true),
+                    DateSend = table.Column<DateTime>(nullable: false),
+                    ParentCommentaryID = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ArticleCommentaries", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_ArticleCommentaries_Articles_ArticleID",
+                        column: x => x.ArticleID,
+                        principalTable: "Articles",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_ArticleCommentaries_AspNetUsers_AuthorId",
+                        column: x => x.AuthorId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_ArticleCommentaries_ArticleCommentaries_ParentCommentaryID",
+                        column: x => x.ParentCommentaryID,
+                        principalTable: "ArticleCommentaries",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -302,59 +336,15 @@ namespace IndieProjects.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Commentaries",
-                columns: table => new
-                {
-                    ID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    ArticleID = table.Column<int>(nullable: true),
-                    AuthorId = table.Column<string>(nullable: true),
-                    Content = table.Column<string>(nullable: true),
-                    DateSend = table.Column<DateTime>(nullable: false),
-                    ProjectID = table.Column<int>(nullable: true),
-                    SelfCommentaryID = table.Column<int>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Commentaries", x => x.ID);
-                    table.ForeignKey(
-                        name: "FK_Commentaries_Articles_ArticleID",
-                        column: x => x.ArticleID,
-                        principalTable: "Articles",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Commentaries_AspNetUsers_AuthorId",
-                        column: x => x.AuthorId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Commentaries_Projects_ProjectID",
-                        column: x => x.ProjectID,
-                        principalTable: "Projects",
-                        principalColumn: "ProjectID",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Commentaries_Commentaries_SelfCommentaryID",
-                        column: x => x.SelfCommentaryID,
-                        principalTable: "Commentaries",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "DeveloperProject",
                 columns: table => new
                 {
-                    DeveloperProjectID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    ProjectID = table.Column<int>(nullable: false),
-                    UserId = table.Column<string>(nullable: true)
+                    UserId = table.Column<string>(nullable: false),
+                    ProjectID = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DeveloperProject", x => x.DeveloperProjectID);
+                    table.PrimaryKey("PK_DeveloperProject", x => new { x.UserId, x.ProjectID });
                     table.ForeignKey(
                         name: "FK_DeveloperProject_Projects_ProjectID",
                         column: x => x.ProjectID,
@@ -366,6 +356,41 @@ namespace IndieProjects.Migrations
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ProjectCommentaries",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    AuthorId = table.Column<string>(nullable: true),
+                    Content = table.Column<string>(nullable: true),
+                    DateSend = table.Column<DateTime>(nullable: false),
+                    ParentCommentaryID = table.Column<int>(nullable: true),
+                    ProjectID = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProjectCommentaries", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_ProjectCommentaries_AspNetUsers_AuthorId",
+                        column: x => x.AuthorId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_ProjectCommentaries_ProjectCommentaries_ParentCommentaryID",
+                        column: x => x.ParentCommentaryID,
+                        principalTable: "ProjectCommentaries",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_ProjectCommentaries_Projects_ProjectID",
+                        column: x => x.ProjectID,
+                        principalTable: "Projects",
+                        principalColumn: "ProjectID",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -402,6 +427,21 @@ namespace IndieProjects.Migrations
                 column: "AuthorId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ArticleCommentaries_ArticleID",
+                table: "ArticleCommentaries",
+                column: "ArticleID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ArticleCommentaries_AuthorId",
+                table: "ArticleCommentaries",
+                column: "AuthorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ArticleCommentaries_ParentCommentaryID",
+                table: "ArticleCommentaries",
+                column: "ParentCommentaryID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ChatMessages_AuthorId",
                 table: "ChatMessages",
                 column: "AuthorId");
@@ -410,26 +450,6 @@ namespace IndieProjects.Migrations
                 name: "IX_ChatMessages_ProjectId",
                 table: "ChatMessages",
                 column: "ProjectId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Commentaries_ArticleID",
-                table: "Commentaries",
-                column: "ArticleID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Commentaries_AuthorId",
-                table: "Commentaries",
-                column: "AuthorId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Commentaries_ProjectID",
-                table: "Commentaries",
-                column: "ProjectID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Commentaries_SelfCommentaryID",
-                table: "Commentaries",
-                column: "SelfCommentaryID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_DeveloperProject_ProjectID",
@@ -452,6 +472,27 @@ namespace IndieProjects.Migrations
                 column: "ProjectManagerId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ProjectCommentaries_AuthorId",
+                table: "ProjectCommentaries",
+                column: "AuthorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProjectCommentaries_ParentCommentaryID",
+                table: "ProjectCommentaries",
+                column: "ParentCommentaryID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProjectCommentaries_ProjectID",
+                table: "ProjectCommentaries",
+                column: "ProjectID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Summaries_UserID",
+                table: "Summaries",
+                column: "UserID",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Tags_ArticleID",
                 table: "Tags",
                 column: "ArticleID");
@@ -465,12 +506,6 @@ namespace IndieProjects.Migrations
                 name: "UserNameIndex",
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AspNetUsers_SummaryUserID",
-                table: "AspNetUsers",
-                column: "SummaryUserID",
                 unique: true);
 
             migrationBuilder.CreateIndex(
@@ -512,16 +547,22 @@ namespace IndieProjects.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "ChatMessages");
+                name: "ArticleCommentaries");
 
             migrationBuilder.DropTable(
-                name: "Commentaries");
+                name: "ChatMessages");
 
             migrationBuilder.DropTable(
                 name: "DeveloperProject");
 
             migrationBuilder.DropTable(
                 name: "Messages");
+
+            migrationBuilder.DropTable(
+                name: "ProjectCommentaries");
+
+            migrationBuilder.DropTable(
+                name: "Summaries");
 
             migrationBuilder.DropTable(
                 name: "Tags");
@@ -555,9 +596,6 @@ namespace IndieProjects.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
-                name: "Summaries");
         }
     }
 }

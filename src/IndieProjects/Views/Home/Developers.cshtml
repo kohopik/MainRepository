@@ -1,5 +1,14 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model IEnumerable<IndieProjects.Model.Article>
+
+<div>
+    @foreach (var article in Model)
+    {
+        <div>
+            <label>@article.Title</label><br />
+            <label id="txt"></label><br />
+            @Html.Raw(article.Content)
+            <label>@article.Likes</label>
+            <a href="~/Home/CurrentArticle/@article.ID">Перейти</a>
+        </div><br />
+    }
+</div>

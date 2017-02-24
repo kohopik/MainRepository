@@ -25,7 +25,6 @@
     </div>
     <div id="editor">
     </div>
-    <input type="button" id="SaveDelta" value="Сохранить" />
     <input type="hidden" asp-for="Content" id="vasya" />
     <input id="submit" type="submit" value="Создать статью" />
 </form>
@@ -43,7 +42,7 @@
         theme: 'snow'
         });
 
-        $('#SaveDelta').click(function () {
+        $('#submit').click(function () {
             var delta = editor.root.innerHTML;
             $('#vasya').val(delta);
         })

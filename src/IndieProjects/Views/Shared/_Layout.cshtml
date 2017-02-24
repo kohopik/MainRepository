@@ -4,15 +4,16 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"]</title>
-    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" media="all" href="~/css/whhg.css"/>
+    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet"/>
     <script src="~/lib/jquery/dist/jquery.js"></script>
     <script src="~/js/jquery.imgareaselect.js"></script>
     <link rel="stylesheet" href="~/css/imgareaselect-animated.css"/>
     <link rel="stylesheet" href="~/css/imgareaselect-default.css" />
-
+    <script src="~/js/masonry.pkgd.min.js"></script>
     <link rel="stylesheet" href="~/css/Styles.css" />
-
 </head>
+
 <body>
     <nav class="navbar navbar-default navbar-fixed-top">
         <div class="container">
@@ -71,7 +72,7 @@
                                     <a href="~/Account/MainAccountProfile">@User.Identity.Name</a>
                                 </li>
                                 <li>
-                                    <a href="~/Account/LogOff">Выход</a>
+                                   <a id="logOut" href="~/Home/Index">Выход</a>
                                 </li>
                             </ul>
                         </li>
@@ -80,7 +81,7 @@
                                 {
                                     <ul class="nav navbar-nav navbar-right">
                                         <li>
-                                            <a href="~/Roles/UserList/">Страница администратора</a>
+                                                <a href="~/Roles/UserList/">Страница администратора</a>
                                         </li>
                                     </ul>
                                 }
@@ -88,14 +89,13 @@
                 else
                 {
                     <ul class="nav navbar-nav navbar-right text-justify(container)">
-                        <li><a href="~/Account/Login/">Вход</a></li>
-                        <li><a href="~/Account/Register/">Регистрация</a></li>
+                        <li><a data-toggle="modal" data-target="#login-modal" href="">Вход</a></li>
+                        <li><a data-toggle="modal" data-target="#register-modal" href="">Регистрация</a></li>
                     </ul>
                 }
             </div>
         </div>
     </nav>
-
 
 
         <div class="container" id="MainBlock">
@@ -105,7 +105,62 @@
     <div class="container" id="Footer">
         текст футера
     </div>
+
+    @*Форма авторизации*@
+    <div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog">
+            <div class="loginmodal-container">
+                <h1>Вход в аккаунт</h1><br>
+                <form id="login" method="post" asp-controller="Account" asp-action="Login">
+                    <input type="text" name="Email" placeholder="Почта" required>
+                    <input type="password" name="Password" placeholder="Пароль" required>
+                    <input type="submit" name="login" class="login loginmodal-submit" value="Войти">
+                </form>
+                <div class="login-help">
+                    <a id="RegisterLink" data-toggle="modal" data-target="#register-modal" href="">Зарегистрироваться</a>
+                    <a id="ResetPassword" href="#">Забыли пароль</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @*Форма регистрации*@
+    <div class="modal fade" id="register-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog">
+            <div class="loginmodal-container">
+                <h1>Регистрация</h1><br>
+                <form id="login" method="post" asp-controller="Account" asp-action="Register">
+                    <input type="text" name="Login" placeholder="Логин" required>
+                    <input type="text" name="Email" placeholder="Почта" required>
+                    <input type="password" name="Password" placeholder="Пароль" required>
+                    <input type="password" name="ConfirmPassword" placeholder="Подтвердите пароль" required>
+                    <input type="checkbox" required/>Я соглашаюсь с правилами пользования сайтом
+                    <input type="submit" name="login" class="login loginmodal-submit" value="Зарегистрировать">
+                </form>
+                <div class="login-help">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
 </body>
 </html>
 
+<script>
+    $('#logOut').on('click', function () {
+        $.ajax({
+            url: '/Account/LogOff',
+            type: 'post',
+            success: function (response)
+            {
+               
+            }
+        });
+        return false;
+    })
+    $('#RegisterLink').on('click', function () {
+        $('#login-modal').modal('hide');
+    });
+</script>

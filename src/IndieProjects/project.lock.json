@@ -70,6 +70,37 @@
           }
         }
       },
+      "Magick.NET.Core-Q8/7.0.4.701": {
+        "type": "package",
+        "dependencies": {
+          "Magick.NET.Core-Q8.Native": "7.0.4.701",
+          "NETStandard.Library": "1.6.0",
+          "System.Collections.NonGeneric": "4.0.1",
+          "System.Xml.XDocument": "4.0.11",
+          "System.Xml.XPath.XDocument": "4.0.1",
+          "System.Xml.XPath.XmlDocument": "4.0.1",
+          "System.Xml.XmlDocument": "4.0.1"
+        },
+        "compile": {
+          "lib/netstandard1.3/Magick.NET.Core-Q8.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.3/Magick.NET.Core-Q8.dll": {}
+        }
+      },
+      "Magick.NET.Core-Q8.Native/7.0.4.701": {
+        "type": "package",
+        "runtimeTargets": {
+          "runtimes/win7-x64/native/Magick.NET-Q8-x64.Native.dll": {
+            "assetType": "native",
+            "rid": "win7-x64"
+          },
+          "runtimes/win7-x86/native/Magick.NET-Q8-x86.Native.dll": {
+            "assetType": "native",
+            "rid": "win7-x86"
+          }
+        }
+      },
       "Microsoft.ApplicationInsights/2.1.0": {
         "type": "package",
         "dependencies": {
@@ -4232,7 +4263,7 @@
           "System.Xml.ReaderWriter": "4.0.11"
         },
         "compile": {
-          "ref/netstandard1.3/_._": {}
+          "ref/netstandard1.3/System.Xml.XmlDocument.dll": {}
         },
         "runtime": {
           "lib/netstandard1.3/System.Xml.XmlDocument.dll": {}
@@ -4252,7 +4283,7 @@
           "System.Xml.ReaderWriter": "4.0.11"
         },
         "compile": {
-          "ref/netstandard1.3/_._": {}
+          "ref/netstandard1.3/System.Xml.XPath.dll": {}
         },
         "runtime": {
           "lib/netstandard1.3/System.Xml.XPath.dll": {}
@@ -4272,10 +4303,31 @@
           "System.Xml.XPath": "4.0.1"
         },
         "compile": {
-          "ref/netstandard1.3/_._": {}
+          "ref/netstandard1.3/System.Xml.XPath.XDocument.dll": {}
         },
         "runtime": {
           "lib/netstandard1.3/System.Xml.XPath.XDocument.dll": {}
+        }
+      },
+      "System.Xml.XPath.XmlDocument/4.0.1": {
+        "type": "package",
+        "dependencies": {
+          "System.Collections": "4.0.11",
+          "System.Globalization": "4.0.11",
+          "System.IO": "4.1.0",
+          "System.Resources.ResourceManager": "4.0.1",
+          "System.Runtime": "4.1.0",
+          "System.Runtime.Extensions": "4.1.0",
+          "System.Threading": "4.0.11",
+          "System.Xml.ReaderWriter": "4.0.11",
+          "System.Xml.XPath": "4.0.1",
+          "System.Xml.XmlDocument": "4.0.1"
+        },
+        "compile": {
+          "ref/netstandard1.3/System.Xml.XPath.XmlDocument.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.3/System.Xml.XPath.XmlDocument.dll": {}
         }
       }
     }
@@ -4328,6 +4380,28 @@
         "runtimes/win7-arm/native/libuv.dll",
         "runtimes/win7-x64/native/libuv.dll",
         "runtimes/win7-x86/native/libuv.dll"
+      ]
+    },
+    "Magick.NET.Core-Q8/7.0.4.701": {
+      "sha512": "dUT8dl2gsjcOJMq6spGCJkBpmUAfY8dbhKgmCJut+mHq8jv8kCx+/BuJGHjb7f+W8ZLORB+MlimwY6SKVR4bhw==",
+      "type": "package",
+      "path": "Magick.NET.Core-Q8/7.0.4.701",
+      "files": [
+        "Magick.NET.Core-Q8.7.0.4.701.nupkg.sha512",
+        "Magick.NET.Core-Q8.nuspec",
+        "lib/netstandard1.3/Magick.NET.Core-Q8.dll",
+        "lib/netstandard1.3/Magick.NET.Core-Q8.xml"
+      ]
+    },
+    "Magick.NET.Core-Q8.Native/7.0.4.701": {
+      "sha512": "5jec2gz12pw6+PkRUk+sFiKyVB6P2GNexDZoe7XRwrpL1/Ise9x1hyUUheAGlfOdiWYaQM4n/3AVRfWtx0VpHA==",
+      "type": "package",
+      "path": "Magick.NET.Core-Q8.Native/7.0.4.701",
+      "files": [
+        "Magick.NET.Core-Q8.Native.7.0.4.701.nupkg.sha512",
+        "Magick.NET.Core-Q8.Native.nuspec",
+        "runtimes/win7-x64/native/Magick.NET-Q8-x64.Native.dll",
+        "runtimes/win7-x86/native/Magick.NET-Q8-x86.Native.dll"
       ]
     },
     "Microsoft.ApplicationInsights/2.1.0": {
@@ -10801,11 +10875,47 @@
         "ref/xamarintvos10/_._",
         "ref/xamarinwatchos10/_._"
       ]
+    },
+    "System.Xml.XPath.XmlDocument/4.0.1": {
+      "sha512": "Zm2BdeanuncYs3NhCj4c9e1x3EXFzFBVv2wPEc/Dj4ZbI9R8ecLSR5frAsx4zJCPBtKQreQ7Q/KxJEohJZbfzA==",
+      "type": "package",
+      "path": "System.Xml.XPath.XmlDocument/4.0.1",
+      "files": [
+        "System.Xml.XPath.XmlDocument.4.0.1.nupkg.sha512",
+        "System.Xml.XPath.XmlDocument.nuspec",
+        "ThirdPartyNotices.txt",
+        "dotnet_library_license.txt",
+        "lib/MonoAndroid10/_._",
+        "lib/MonoTouch10/_._",
+        "lib/netstandard1.3/System.Xml.XPath.XmlDocument.dll",
+        "lib/xamarinios10/_._",
+        "lib/xamarinmac20/_._",
+        "lib/xamarintvos10/_._",
+        "lib/xamarinwatchos10/_._",
+        "ref/MonoAndroid10/_._",
+        "ref/MonoTouch10/_._",
+        "ref/netstandard1.3/System.Xml.XPath.XmlDocument.dll",
+        "ref/netstandard1.3/System.Xml.XPath.XmlDocument.xml",
+        "ref/netstandard1.3/de/System.Xml.XPath.XmlDocument.xml",
+        "ref/netstandard1.3/es/System.Xml.XPath.XmlDocument.xml",
+        "ref/netstandard1.3/fr/System.Xml.XPath.XmlDocument.xml",
+        "ref/netstandard1.3/it/System.Xml.XPath.XmlDocument.xml",
+        "ref/netstandard1.3/ja/System.Xml.XPath.XmlDocument.xml",
+        "ref/netstandard1.3/ko/System.Xml.XPath.XmlDocument.xml",
+        "ref/netstandard1.3/ru/System.Xml.XPath.XmlDocument.xml",
+        "ref/netstandard1.3/zh-hans/System.Xml.XPath.XmlDocument.xml",
+        "ref/netstandard1.3/zh-hant/System.Xml.XPath.XmlDocument.xml",
+        "ref/xamarinios10/_._",
+        "ref/xamarinmac20/_._",
+        "ref/xamarintvos10/_._",
+        "ref/xamarinwatchos10/_._"
+      ]
     }
   },
   "projectFileDependencyGroups": {
     "": [
       "CoreCompat.System.Drawing >= 1.0.0-beta006",
+      "Magick.NET.Core-Q8 >= 7.0.4.701",
       "Microsoft.ApplicationInsights.AspNetCore >= 1.0.0",
       "Microsoft.AspNetCore.Diagnostics >= 1.0.0",
       "Microsoft.AspNetCore.Identity.EntityFrameworkCore >= 1.0.0",

@@ -1,10 +1,20 @@
 ﻿@model IndieProjects.Model.Project
 
-@foreach (var val in ViewBag.Projects)
-{
-    <div>
-        <label>@val.Name</label>
-        <code>@val.Description</code>
-        <label>@val.Links</label>
-    </div>
-}
+        @foreach (var proj in ViewBag.Projects)
+        {
+                <div class="col-md-4 col-sm-6">
+                    <div class="box">
+                        <div class="pic">
+                            <img src="~/@proj.Avatar" alt="" />
+                        </div>
+                        <ul class="social-links">
+                            <li><a href="#" class="icon-playstation"></a></li>
+                            <li><a href="#" class="icon-steam"></a></li>
+                            <li><a href="#" class="fa fa-twitter"></a></li>
+                        </ul>
+                        <i class="icon-glass"></i>
+                            <a class="Name" href="~/Project/CurrentProjectPage/@proj.ProjectID">@proj.Name</a>
+                            <a class="Likes">Понравилось</a>
+                    </div>
+                </div>
+        }

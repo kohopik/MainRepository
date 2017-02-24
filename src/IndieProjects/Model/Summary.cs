@@ -11,8 +11,8 @@ namespace IndieProjects.Model
     public class Summary
     {
         [Key]
-        [Required]       
-        public int UserID { get; set; }
+        [ForeignKey("User")]       
+        public string UserID { get; set; }
 
         public User Developer { get; set; }
 

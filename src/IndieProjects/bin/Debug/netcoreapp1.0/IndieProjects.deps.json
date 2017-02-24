@@ -1,7 +1,7 @@
 {
   "runtimeTarget": {
     "name": ".NETCoreApp,Version=v1.0",
-    "signature": "4a453999b98f2be638b3a57b7091baf207d7048c"
+    "signature": "fc44900b6030c5aa56fd65bbc7395db4becaebe2"
   },
   "compilationOptions": {
     "defines": [
@@ -36,7 +36,8 @@
           "Microsoft.EntityFrameworkCore.Tools": "1.0.0-preview2-final",
           "Microsoft.EntityFrameworkCore.SqlServer": "1.0.0",
           "jQuery": "3.1.1",
-          "Newtonsoft.Json": "9.0.1"
+          "Newtonsoft.Json": "9.0.1",
+          "Magick.NET.Core-Q8": "7.0.4.701"
         },
         "runtime": {
           "IndieProjects.dll": {}
@@ -69,6 +70,35 @@
         }
       },
       "jQuery/3.1.1": {},
+      "Magick.NET.Core-Q8/7.0.4.701": {
+        "dependencies": {
+          "Magick.NET.Core-Q8.Native": "7.0.4.701",
+          "NETStandard.Library": "1.6.0",
+          "System.Collections.NonGeneric": "4.0.1",
+          "System.Xml.XDocument": "4.0.11",
+          "System.Xml.XPath.XDocument": "4.0.1",
+          "System.Xml.XPath.XmlDocument": "4.0.1",
+          "System.Xml.XmlDocument": "4.0.1"
+        },
+        "runtime": {
+          "lib/netstandard1.3/Magick.NET.Core-Q8.dll": {}
+        },
+        "compile": {
+          "lib/netstandard1.3/Magick.NET.Core-Q8.dll": {}
+        }
+      },
+      "Magick.NET.Core-Q8.Native/7.0.4.701": {
+        "runtimeTargets": {
+          "runtimes/win7-x64/native/Magick.NET-Q8-x64.Native.dll": {
+            "rid": "win7-x64",
+            "assetType": "native"
+          },
+          "runtimes/win7-x86/native/Magick.NET-Q8-x86.Native.dll": {
+            "rid": "win7-x86",
+            "assetType": "native"
+          }
+        }
+      },
       "Microsoft.ApplicationInsights/2.1.0": {
         "dependencies": {
           "System.Collections": "4.0.11",
@@ -2027,6 +2057,26 @@
           "lib/netstandard1.0/System.Text.Encodings.Web.dll": {}
         }
       },
+      "System.Xml.XPath.XmlDocument/4.0.1": {
+        "dependencies": {
+          "System.Collections": "4.0.11",
+          "System.Globalization": "4.0.11",
+          "System.IO": "4.1.0",
+          "System.Resources.ResourceManager": "4.0.1",
+          "System.Runtime": "4.1.0",
+          "System.Runtime.Extensions": "4.1.0",
+          "System.Threading": "4.0.11",
+          "System.Xml.ReaderWriter": "4.0.11",
+          "System.Xml.XPath": "4.0.1",
+          "System.Xml.XmlDocument": "4.0.1"
+        },
+        "runtime": {
+          "lib/netstandard1.3/System.Xml.XPath.XmlDocument.dll": {}
+        },
+        "compile": {
+          "ref/netstandard1.3/System.Xml.XPath.XmlDocument.dll": {}
+        }
+      },
       "Libuv/1.9.0": {
         "dependencies": {
           "Microsoft.NETCore.Platforms": "1.0.1"
@@ -3629,6 +3679,9 @@
           "System.Threading": "4.0.11",
           "System.Xml.ReaderWriter": "4.0.11"
         },
+        "compile": {
+          "ref/netstandard1.3/System.Xml.XmlDocument.dll": {}
+        },
         "compileOnly": true
       },
       "System.Xml.XPath/4.0.1": {
@@ -3643,6 +3696,9 @@
           "System.Threading": "4.0.11",
           "System.Xml.ReaderWriter": "4.0.11"
         },
+        "compile": {
+          "ref/netstandard1.3/System.Xml.XPath.dll": {}
+        },
         "compileOnly": true
       },
       "System.Xml.XPath.XDocument/4.0.1": {
@@ -3656,6 +3712,9 @@
           "System.Xml.ReaderWriter": "4.0.11",
           "System.Xml.XDocument": "4.0.11",
           "System.Xml.XPath": "4.0.1"
+        },
+        "compile": {
+          "ref/netstandard1.3/System.Xml.XPath.XDocument.dll": {}
         },
         "compileOnly": true
       }
@@ -3676,6 +3735,16 @@
       "type": "package",
       "serviceable": true,
       "sha512": "sha512-XGsgwse025NxNPHjY7GE8HMFNzjqsa7a/PmNS1S5bVU++pNpZmiTnzUBK6OmECnqG/fIMVaAYHTnfoYd/Wz28g=="
+    },
+    "Magick.NET.Core-Q8/7.0.4.701": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-dUT8dl2gsjcOJMq6spGCJkBpmUAfY8dbhKgmCJut+mHq8jv8kCx+/BuJGHjb7f+W8ZLORB+MlimwY6SKVR4bhw=="
+    },
+    "Magick.NET.Core-Q8.Native/7.0.4.701": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-5jec2gz12pw6+PkRUk+sFiKyVB6P2GNexDZoe7XRwrpL1/Ise9x1hyUUheAGlfOdiWYaQM4n/3AVRfWtx0VpHA=="
     },
     "Microsoft.ApplicationInsights/2.1.0": {
       "type": "package",
@@ -4286,6 +4355,11 @@
       "type": "package",
       "serviceable": true,
       "sha512": "sha512-TWZnuiJgPDAEEUfobD7njXvSVR2Toz+jvKWds6yL4oSztmKQfnWzucczjzA+6Dv1bktBdY71sZW1YN0X6m9chQ=="
+    },
+    "System.Xml.XPath.XmlDocument/4.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Zm2BdeanuncYs3NhCj4c9e1x3EXFzFBVv2wPEc/Dj4ZbI9R8ecLSR5frAsx4zJCPBtKQreQ7Q/KxJEohJZbfzA=="
     },
     "Libuv/1.9.0": {
       "type": "package",

@@ -14,9 +14,11 @@ namespace IndieProjects.Model
 
         public DbSet<ChatMessage> ChatMessages { get; set; }
 
+        public DbSet<ArticleCommentaries> ArticleCommentaries { get; set; }
+
         public DbSet<Tag> Tags { get; set; }
 
-        public DbSet<Commentary> Commentaries { get; set; }
+        public DbSet<ProjectCommentaries> ProjectCommentaries { get; set; }
 
         public DbSet<Message> Messages { get; set; }
 
@@ -34,18 +36,18 @@ namespace IndieProjects.Model
         {
             base.OnModelCreating(modelBuilder);
             //Проект - пользователь
-            //modelBuilder.Entity<DeveloperProject>()
-            //.HasKey(t => new { t.UserID, t.ProjectID });
+            modelBuilder.Entity<DeveloperProject>()
+            .HasKey(t => new { t.UserId, t.ProjectID });
 
-            //modelBuilder.Entity<DeveloperProject>()
-            //    .HasOne(pt => pt.User)
-            //    .WithMany(p => p.Projects)
-            //    .HasForeignKey(pt => pt.UserID);
+            modelBuilder.Entity<DeveloperProject>()
+                .HasOne(pt => pt.User)
+                .WithMany(p => p.Projects)
+                .HasForeignKey(pt => pt.UserId);
 
-            //modelBuilder.Entity<DeveloperProject>()
-            //    .HasOne(pt => pt.Project)
-            //    .WithMany(t => t.Team)
-            //    .HasForeignKey(pt => pt.ProjectID);
+            modelBuilder.Entity<DeveloperProject>()
+                .HasOne(pt => pt.Project)
+                .WithMany(t => t.Team)
+                .HasForeignKey(pt => pt.ProjectID);
         }
     }
 }

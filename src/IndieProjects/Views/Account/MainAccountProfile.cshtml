@@ -1,81 +1,390 @@
-﻿@*<li><a href="~/Account/AboutMe">Обо мне</a></li>
-<li><a href="~/Account/Notification">Активность</a></li>
-<li><a href="~/Account/MyProjects">Мои проекты</a></li>
-<li><a href="~/Account/ProfileChanges">Редактировать профиль</a></li>
-<li><a href="~/Account/MyArticles">Мои статьи</a></li>*@
-<div class="col-lg-12" id="cabinetTopic">
-    <span id="username">@User.Identity.Name</span>
-    <span class="pull-right OnOffstatus">статус пользователя</span>
-</div>
-    <div class="col-lg-4">
-        <img id="Avatar" class="img-circle" src="~/images/rounded-512.png" width="140" height="140" />
-            <ul class="ca-menu">
-                <li>
-                    <a href="#">
-                        <span class="ca-icon">
-                            A
-                        </span>
-                        <div class="ca-content">
-                            <h3 class="ca-main">Сообщения</h3>
-                        </div>
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <span class="ca-icon">d</span>
-                        <div class="ca-content">
-                            <h3 class="ca-main">Мои чаты</h3>
-                        </div>
-                    </a>
-                </li>
-                <li>
-                    <a href="~/Account/ProfileChanges">
-                        <span class="ca-icon">J</span>
-                        <div class="ca-content">
-                            <h3 class="ca-main">Редактировать профиль</h3>
-                        </div>
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <span class="ca-icon">h</span>
-                        <div class="ca-content">
-                            <h3 class="ca-main">Выход</h3>
-                        </div>
-                    </a>
-                </li>
-            </ul>
-        </div>
+﻿@model IndieProjects.Model.User
 
-    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
-        <div id="tabsblock">
-            <ul class="nav nav-tabs" role="tablist">
-                <li role="presentation" class="active"><a href="#AboutMe" aria-controls="AboutMe" role="tab" data-toggle="tab">Обо мне</a></li>
-                <li role="presentation"><a href="#Activity" aria-controls="Activity" role="tab" data-toggle="tab">Активность</a></li>
-                <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Мои проекты</a></li>
-                <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Мои статьи</a></li>
-            </ul>
-            <div class="tab-content">
-                <div id="AboutMe" class="tab-pane fade in active">
-                    <h1>Личная информация</h1>
-                    @Html.Partial("_About")
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+<div class="tabsblock">
+    <div id="modDialog" class="modal fade">
+        <div id="dialogContent" class="modal-dialog"></div>
+    </div>
+    <!--Модальное окно с изображением-->
+    <div class="modal fade" tabindex="-1" role="dialog" id="ModalContentWithImage" aria-labelledby="gridModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content" id="imagecont">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="gridModalLabel">Загрузка новой фотографии</h4>
                 </div>
-                <div id="Activity" class="tab-pane fade">
-                    <h1>Panel1</h1>
-                    @Html.Partial("_Activity")
+                <div class="modal-body" id="divWithImg">
+                    <img id="target" class="center-block" src="" alt="" /><br />
+                    <input type="submit" id="clack" value="Загрузить" />
                 </div>
             </div>
         </div>
     </div>
 
+    <!--Предварительное окно загрузки изображения-->
+    <div id="gridSystemModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="gridModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header center-block">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="gridModalLabel">Загрузка новой фотографии</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid bd-example-row center-block">
+                        <div>
+                            Вы можете загрузить фотографию форматов .JPG, .PNG, .JPEG
+                        </div>
+                        <input type="file" id="imgInput" title="Tag" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        <div class="col-lg-3 col-md-4">
+            <div class="text-center card-box">
+                <div class="member-card">
+                    <div class="thumb-xl member-thumb m-b-10 center-block">
+                      <img src="~/@Model.Avatar" class="img-circle img-thumbnail" alt="profile-image">
+                        <a class="btn btn-primary" data-toggle="modal" data-target="#gridSystemModal">изменить</a>
+                    </div>
+
+                    <div class="">
+                        <h4 class="m-b-5">@User.Identity.Name</h4>
+                        <p class="text-muted"></p>
+                    </div>
+
+                    <button type="button" class="btn btn-success btn-sm w-sm waves-effect m-t-10 waves-light">Чаты</button>
+                    <button id="MsgButton" type="button" class="btn btn-danger btn-sm w-sm waves-effect m-t-10 waves-light">Сообщения</button>
+
+                    <div class="text-left m-t-40">
+                        @if (Model.FIO != null)
+                        {
+                            <p class="text-muted font-13"><strong>Имя :</strong> <span class="m-l-15">Johnathan Deo</span></p>
+                        }
+                        @if (Model.PhoneNumber != null)
+                        {
+                            <p class="text-muted font-13"><strong>Телефон :</strong><span class="m-l-15">@Model.PhoneNumber</span></p>
+                        }
+                        <p class="text-muted font-13"><strong>Email :</strong> <span class="m-l-15">@Model.Email</span></p>
+                        @if (Model.City != null)
+                        {
+                            <p class="text-muted font-13"><strong>Город :</strong> <span class="m-l-15">@Model.City</span></p>
+                        }
+                        @if (Model.Country != null)
+                        {
+                            <p class="text-muted font-13"><strong>Страна :</strong> <span class="m-l-15">USA</span></p>
+                        }
+                    </div>
+
+                    <ul class="social-links list-inline m-t-30">
+                        <li>
+                            <a title="" data-placement="top" data-toggle="tooltip" class="tooltips" href="" data-original-title="Facebook"><i class="fa fa-facebook"></i></a>
+                        </li>
+                        <li>
+                            <a title="" data-placement="top" data-toggle="tooltip" class="tooltips" href="" data-original-title="Twitter"><i class="fa fa-twitter"></i></a>
+                        </li>
+                        <li>
+                            <a title="" data-placement="top" data-toggle="tooltip" class="tooltips" href="" data-original-title="Skype"><i class="fa fa-skype"></i></a>
+                        </li>
+                    </ul>
+                </div>
+            </div> <!-- end card-box -->
+        </div> <!-- end col -->
 
 
+        <div class="col-md-8 col-lg-9">
+            <div class="wrapper wrapper-content animated fadeInRight" id="MessageContent">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="ibox chat-view">
+                            <div class="ibox-title">
+                                <small class="pull-right text-muted">Last message:  Mon Jan 26 2015 - 18:39:23</small> Chat room panel
+                            </div>
+                            <div class="ibox-content">
+                                <div class="row">
+                                    <div class="col-md-9 ">
+                                        <div class="chat-discussion">
+                                            <div class="chat-message left">
+                                                <img class="message-avatar" src="http://bootdey.com/img/Content/avatar/avatar1.png" alt="">
+                                                <div class="message">
+                                                    <a class="message-author" href="#"> Michael Smith </a>
+                                                    <span class="message-date"> Mon Jan 26 2015 - 18:39:23 </span>
+                                                    <span class="message-content">
+                                                        Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="chat-message right">
+                                                <img class="message-avatar" src="http://bootdey.com/img/Content/avatar/avatar6.png" alt="">
+                                                <div class="message">
+                                                    <a class="message-author" href="#"> Karl Jordan </a>
+                                                    <span class="message-date">  Fri Jan 25 2015 - 11:12:36 </span>
+                                                    <span class="message-content">
+                                                        Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover.
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <div class="chat-message-form">
+                                                    <div class="form-group">
+                                                        <textarea class="form-control message-input" name="message" placeholder="Enter message text and press enter"></textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
 
-<script type="text/javascript">
-$(document).ready(function(){
-  $("#myTab a").click(function(e){
-    e.preventDefault();
-    $(this).tab('show');
-  });
-});
+                                    <div class="col-md-3">
+                                        <div class="chat-users">
+                                            <div class="users-list">
+                                                <div class="chat-user">
+                                                    <img class="chat-avatar" src="http://bootdey.com/img/Content/avatar/avatar1.png" alt="">
+                                                    <div class="chat-user-name">
+                                                        <a href="#">Karl Jordan</a>
+                                                    </div>
+                                                </div>
+                                                <div class="chat-user">
+                                                    <img class="chat-avatar" src="http://bootdey.com/img/Content/avatar/avatar2.png" alt="">
+                                                    <div class="chat-user-name">
+                                                        <a href="#">Monica Smith</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="" id="MainPersonContent">
+                <div class="">
+                    <ul class="nav nav-tabs navtab-custom">
+                        <li class="active">
+                            <a href="#home" data-toggle="tab" aria-expanded="false">
+                                <span class="visible-xs"><i class="fa fa-user"></i></span>
+                                <span class="hidden-xs">ОБО МНЕ</span>
+                            </a>
+                        </li>
+                        <li class="">
+                            <a href="#activity" data-toggle="tab" aria-expanded="false">
+                                <span class="visible-xs"><i class="fa fa-bell"></i></span>
+                                <span class="hidden-xs">АКТИВНОСТЬ</span>
+                            </a>
+                        </li>
+                        <li class="">
+                            <a href="#profile" data-toggle="tab" aria-expanded="true">
+                                <span class="visible-xs"><i class="fa fa-photo"></i></span>
+                                <span class="hidden-xs">ПОРТФОЛИО</span>
+                            </a>
+                        </li>
+                        <li class="">
+                            <a id="projects" href="#projectsBlock" data-toggle="tab" aria-expanded="false">
+                                <span class="visible-xs"><i class="fa fa-desktop"></i></span>
+                                <span class="hidden-xs">ПРОЕКТЫ</span>
+                            </a>
+                        </li>
+                        <li class="">
+                            <a id="articles" href="#articlesBlock" data-toggle="tab" aria-expanded="false">
+                                <span class="visible-xs"><i class="fa fa-edit"></i></span>
+                                <span class="hidden-xs">СТАТЬИ</span>
+                            </a>
+                        </li>
+                        <li class="">
+                            <a href="#settings" data-toggle="tab" aria-expanded="false">
+                                <span class="visible-xs"><i class="fa fa-cog"></i></span>
+                                <span class="hidden-xs">НАСТРОЙКИ</span>
+                            </a>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="home">
+                            @Html.Partial("_About")
+                        </div>
+
+                        <div class="tab-pane active" id="projectsBlock">
+                        </div>
+
+                        <div class="tab-pane active" id="articlesBlock">
+                        </div>
+
+                        <div class="tab-pane" id="profile">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="gal-detail thumb">
+                                        <a href="#" class="image-popup" title="Screenshot-2">
+                                            <img src="http://lorempixel.com/400/300/nature/1" class="thumb-img" alt="work-thumbnail">
+                                        </a>
+                                        <h4 class="text-center">Gallary Image</h4>
+                                        <div class="ga-border"></div>
+                                        <p class="text-muted text-center"><small>Photography</small></p>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-4">
+                                    <div class="gal-detail thumb">
+                                        <a href="#" class="image-popup" title="Screenshot-2">
+                                            <img src="http://lorempixel.com/400/300/nature/2" class="thumb-img" alt="work-thumbnail">
+                                        </a>
+                                        <h4 class="text-center">Gallary Image</h4>
+                                        <div class="ga-border"></div>
+                                        <p class="text-muted text-center"><small>Photography</small></p>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-4">
+                                    <div class="gal-detail thumb">
+                                        <a href="#" class="image-popup" title="Screenshot-2">
+                                            <img src="http://lorempixel.com/400/300/nature/3" class="thumb-img" alt="work-thumbnail">
+                                        </a>
+                                        <h4 class="text-center">Gallary Image</h4>
+                                        <div class="ga-border"></div>
+                                        <p class="text-muted text-center"><small>Photography</small></p>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-4">
+                                    <div class="gal-detail thumb">
+                                        <a href="#" class="image-popup" title="Screenshot-2">
+                                            <img src="http://lorempixel.com/400/300/nature/4" class="thumb-img" alt="work-thumbnail">
+                                        </a>
+                                        <h4 class="text-center">Gallary Image</h4>
+                                        <div class="ga-border"></div>
+                                        <p class="text-muted text-center"><small>Photography</small></p>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-4">
+                                    <div class="gal-detail thumb">
+                                        <a href="#" class="image-popup" title="Screenshot-2">
+                                            <img src="http://lorempixel.com/400/300/nature/5" class="thumb-img" alt="work-thumbnail">
+                                        </a>
+                                        <h4 class="text-center">Gallary Image</h4>
+                                        <div class="ga-border"></div>
+                                        <p class="text-muted text-center"><small>Photography</small></p>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-4">
+                                    <div class="gal-detail thumb">
+                                        <a href="#" class="image-popup" title="Screenshot-2">
+                                            <img src="http://lorempixel.com/400/300/nature/6" class="thumb-img" alt="work-thumbnail">
+                                        </a>
+                                        <h4 class="text-center">Gallary Image</h4>
+                                        <div class="ga-border"></div>
+                                        <p class="text-muted text-center"><small>Photography</small></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="settings">
+                            @Html.Partial("ProfileChanges");
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- end col -->
+    </div>
+<!-- end row -->
+
+<script>
+    var localvariable;
+    var send;
+    var imgarea;
+
+    $('#clack').click(function () {
+        $.ajax({
+            url: '/Account/AddAvatar/',
+            data: JSON.stringify(send),
+            contentType: 'application/json',
+            type: 'POST',
+            success: function (result) {
+                alert('Ваша фотография успешно обновлена');
+                $('#ModalContentWithImage').modal('hide');
+            }
+        });
+    });
+
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#target').attr('src', e.target.result);
+                localvariable = e.target.result;
+            };
+            reader.readAsDataURL(input.files[0]);
+            $('#gridSystemModal').modal('hide');
+            $('#imgInput').val("")
+            $('#ModalContentWithImage').modal('show');
+        }
+    }
+    
+    $('#ModalContentWithImage').on('hide.bs.modal', function (e) {
+        imgarea.cancelSelection();
+    })
+
+    $("#imgInput").change(function ()
+    {
+        readURL(this);
+    });
+
+    $(document).ready(function () {
+        imgarea = $('#target').imgAreaSelect(
+            {
+                instance: true,
+                aspectRatio: '4:4', handles: true,
+                onSelectEnd: function(img,selection)
+                {
+                    send = { Avatar: localvariable, x1: selection.x1, x2: selection.x2, y1: selection.y1, y2: selection.y2, height: $('#target').height(), width: $('#target').width() };
+                }
+            });
+    });
+    /*другая часть*/
+
+    $(document).ready(function () {
+        $('#MessageContent').hide();
+    });
+    var IsHidden = true;
+    $('#MsgButton').click(
+    function HideChat() {
+        console.log('НАЖАТО');
+        if (!IsHidden) {
+            $('#MessageContent').hide();
+            $('#MainPersonContent').show();
+            IsHidden = true;
+        }
+        else {
+            $('#MessageContent').show();
+            $('#MainPersonContent').hide();
+            IsHidden = false;
+        }
+    });
+
+    $('#projects').click(function () {
+        $.ajax({
+            url: '/Account/_MyProjects/',
+            contentType: 'application/html; charset=utf-8',
+            type: 'GET',
+            dataType: 'html',
+            success: function (result) {
+                $('#projectsBlock').html(result);
+            }
+        })
+    });
+
+    $('#articles').click(function () {
+        $.ajax({
+            url: '/Account/_MyArticles/',
+            contentType: 'application/html; charset=utf-8',
+            type: 'GET',
+            dataType: 'html',
+            success: function (result) {
+                $('#articlesBlock').html(result);
+            }
+        })
+    });
 </script>

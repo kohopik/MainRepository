@@ -11,7 +11,7 @@ namespace IndieProjects.Model
         public Article()
         {
             Tags = new List<Tag>();
-            Commentaries = new List<Commentary>();
+            Commentaries = new List<ArticleCommentaries>();
         }
         public int ID { get; set; }
 
@@ -25,7 +25,7 @@ namespace IndieProjects.Model
 
         public int Likes { get; set; }
 
-        public ICollection<Commentary> Commentaries { get; set; }
+        public ICollection<ArticleCommentaries> Commentaries { get; set; }
 
         public ICollection<Tag> Tags { get; set; }
     }
