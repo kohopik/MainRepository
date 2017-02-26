@@ -59,7 +59,7 @@
                     <div class="text-left m-t-40">
                         @if (Model.FIO != null)
                         {
-                            <p class="text-muted font-13"><strong>Имя :</strong> <span class="m-l-15">Johnathan Deo</span></p>
+                            <p class="text-muted font-13"><strong>Имя :</strong> <span class="m-l-15">@Model.FIO</span></p>
                         }
                         @if (Model.PhoneNumber != null)
                         {
@@ -72,7 +72,7 @@
                         }
                         @if (Model.Country != null)
                         {
-                            <p class="text-muted font-13"><strong>Страна :</strong> <span class="m-l-15">USA</span></p>
+                            <p class="text-muted font-13"><strong>Страна :</strong> <span class="m-l-15">@Model.Country</span></p>
                         }
                     </div>
 
@@ -176,12 +176,6 @@
                             </a>
                         </li>
                         <li class="">
-                            <a href="#profile" data-toggle="tab" aria-expanded="true">
-                                <span class="visible-xs"><i class="fa fa-photo"></i></span>
-                                <span class="hidden-xs">ПОРТФОЛИО</span>
-                            </a>
-                        </li>
-                        <li class="">
                             <a id="projects" href="#projectsBlock" data-toggle="tab" aria-expanded="false">
                                 <span class="visible-xs"><i class="fa fa-desktop"></i></span>
                                 <span class="hidden-xs">ПРОЕКТЫ</span>
@@ -213,73 +207,7 @@
                         </div>
 
                         <div class="tab-pane" id="profile">
-                            <div class="row">
-                                <div class="col-sm-4">
-                                    <div class="gal-detail thumb">
-                                        <a href="#" class="image-popup" title="Screenshot-2">
-                                            <img src="http://lorempixel.com/400/300/nature/1" class="thumb-img" alt="work-thumbnail">
-                                        </a>
-                                        <h4 class="text-center">Gallary Image</h4>
-                                        <div class="ga-border"></div>
-                                        <p class="text-muted text-center"><small>Photography</small></p>
-                                    </div>
-                                </div>
-
-                                <div class="col-sm-4">
-                                    <div class="gal-detail thumb">
-                                        <a href="#" class="image-popup" title="Screenshot-2">
-                                            <img src="http://lorempixel.com/400/300/nature/2" class="thumb-img" alt="work-thumbnail">
-                                        </a>
-                                        <h4 class="text-center">Gallary Image</h4>
-                                        <div class="ga-border"></div>
-                                        <p class="text-muted text-center"><small>Photography</small></p>
-                                    </div>
-                                </div>
-
-                                <div class="col-sm-4">
-                                    <div class="gal-detail thumb">
-                                        <a href="#" class="image-popup" title="Screenshot-2">
-                                            <img src="http://lorempixel.com/400/300/nature/3" class="thumb-img" alt="work-thumbnail">
-                                        </a>
-                                        <h4 class="text-center">Gallary Image</h4>
-                                        <div class="ga-border"></div>
-                                        <p class="text-muted text-center"><small>Photography</small></p>
-                                    </div>
-                                </div>
-
-                                <div class="col-sm-4">
-                                    <div class="gal-detail thumb">
-                                        <a href="#" class="image-popup" title="Screenshot-2">
-                                            <img src="http://lorempixel.com/400/300/nature/4" class="thumb-img" alt="work-thumbnail">
-                                        </a>
-                                        <h4 class="text-center">Gallary Image</h4>
-                                        <div class="ga-border"></div>
-                                        <p class="text-muted text-center"><small>Photography</small></p>
-                                    </div>
-                                </div>
-
-                                <div class="col-sm-4">
-                                    <div class="gal-detail thumb">
-                                        <a href="#" class="image-popup" title="Screenshot-2">
-                                            <img src="http://lorempixel.com/400/300/nature/5" class="thumb-img" alt="work-thumbnail">
-                                        </a>
-                                        <h4 class="text-center">Gallary Image</h4>
-                                        <div class="ga-border"></div>
-                                        <p class="text-muted text-center"><small>Photography</small></p>
-                                    </div>
-                                </div>
-
-                                <div class="col-sm-4">
-                                    <div class="gal-detail thumb">
-                                        <a href="#" class="image-popup" title="Screenshot-2">
-                                            <img src="http://lorempixel.com/400/300/nature/6" class="thumb-img" alt="work-thumbnail">
-                                        </a>
-                                        <h4 class="text-center">Gallary Image</h4>
-                                        <div class="ga-border"></div>
-                                        <p class="text-muted text-center"><small>Photography</small></p>
-                                    </div>
-                                </div>
-                            </div>
+                            
                         </div>
                         <div class="tab-pane" id="settings">
                             @Html.Partial("ProfileChanges");

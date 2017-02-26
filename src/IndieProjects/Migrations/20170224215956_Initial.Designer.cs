@@ -8,7 +8,7 @@ using IndieProjects.Model;
 namespace IndieProjects.Migrations
 {
     [DbContext(typeof(IndieContext))]
-    [Migration("20170224212611_Initial")]
+    [Migration("20170224215956_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

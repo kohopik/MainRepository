@@ -2,14 +2,99 @@
 
 <div>
     <a href="~/Account/AddArticle/">Написать статью</a>
-    @foreach (var article in Model)
-    {
-        <div>
-            <label>@article.Title</label><br />
-            <label id="txt"></label><br />
-            @Html.Raw(article.Content)
-            <label>@article.Likes</label>
-            <a href="~/Home/CurrentArticle/@article.ID">Перейти</a>
-        </div><br />
-    }
+
+    <div class="row">
+        @foreach (var article in Model)
+        {
+            <div class="col-sm-4">
+                <h4 class="text-center">@article.Title</h4><br />
+                <label id="txt"></label><br />
+                <div class="ga-border"></div>
+                <label>@article.Likes</label>
+                <a class="pull-right" href="~/Home/CurrentArticle/@article.ID">Перейти</a>
+            </div>
+            <div class="col-sm-4">
+                <h4 class="text-center">@article.Title</h4><br />
+                <label id="txt"></label><br />
+                <div class="ga-border"></div>
+                <label>@article.Likes</label>
+                <a class="pull-right" href="~/Home/CurrentArticle/@article.ID">Перейти</a>
+            </div>
+            <div class="col-sm-4">
+                <h4 class="text-center">@article.Title</h4><br />
+                <label id="txt"></label><br />
+                <div class="ga-border"></div>
+                <label>@article.Likes</label>
+                <a class="pull-right" href="~/Home/CurrentArticle/@article.ID">Перейти</a>
+            </div>
+            <br />
+        }
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-4">
+        <div class="gal-detail thumb">
+            <a href="#" class="image-popup" title="Screenshot-2">
+                <img src="http://lorempixel.com/400/300/nature/1" class="thumb-img" alt="work-thumbnail">
+            </a>
+            <h4 class="text-center">Gallary Image</h4>
+            <div class="ga-border"></div>
+            <p class="text-muted text-center"><small>Photography</small></p>
+        </div>
+    </div>
+
+    <div class="col-sm-4">
+        <div class="gal-detail thumb">
+            <a href="#" class="image-popup" title="Screenshot-2">
+                <img src="http://lorempixel.com/400/300/nature/2" class="thumb-img" alt="work-thumbnail">
+            </a>
+            <h4 class="text-center">Gallary Image</h4>
+            <div class="ga-border"></div>
+            <p class="text-muted text-center"><small>Photography</small></p>
+        </div>
+    </div>
+
+    <div class="col-sm-4">
+        <div class="gal-detail thumb">
+            <a href="#" class="image-popup" title="Screenshot-2">
+                <img src="http://lorempixel.com/400/300/nature/3" class="thumb-img" alt="work-thumbnail">
+            </a>
+            <h4 class="text-center">Gallary Image</h4>
+            <div class="ga-border"></div>
+            <p class="text-muted text-center"><small>Photography</small></p>
+        </div>
+    </div>
+
+    <div class="col-sm-4">
+        <div class="gal-detail thumb">
+            <a href="#" class="image-popup" title="Screenshot-2">
+                <img src="http://lorempixel.com/400/300/nature/4" class="thumb-img" alt="work-thumbnail">
+            </a>
+            <h4 class="text-center">Gallary Image</h4>
+            <div class="ga-border"></div>
+            <p class="text-muted text-center"><small>Photography</small></p>
+        </div>
+    </div>
+
+    <div class="col-sm-4">
+        <div class="gal-detail thumb">
+            <a href="#" class="image-popup" title="Screenshot-2">
+                <img src="http://lorempixel.com/400/300/nature/5" class="thumb-img" alt="work-thumbnail">
+            </a>
+            <h4 class="text-center">Gallary Image</h4>
+            <div class="ga-border"></div>
+            <p class="text-muted text-center"><small>Photography</small></p>
+        </div>
+    </div>
+
+    <div class="col-sm-4">
+        <div class="gal-detail thumb">
+            <a href="#" class="image-popup" title="Screenshot-2">
+                <img src="http://lorempixel.com/400/300/nature/6" class="thumb-img" alt="work-thumbnail">
+            </a>
+            <h4 class="text-center">Gallary Image</h4>
+            <div class="ga-border"></div>
+            <p class="text-muted text-center"><small>Photography</small></p>
+        </div>
+    </div>
 </div>

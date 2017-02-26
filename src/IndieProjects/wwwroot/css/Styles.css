@@ -83,7 +83,9 @@
         background-color: transparent;
     }
 }
-
+#aboutuser{
+    margin-top:9px;
+}
 #MainBlock{ 
 margin-top: 60px;
 background-color:white;
