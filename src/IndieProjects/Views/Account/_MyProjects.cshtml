@@ -7,7 +7,7 @@
         <div>
             <label>@proj.Name</label><br />
             <div>@Html.Raw(proj.Description)</div>
-            <label>@proj.Likes</label>
+            <label>@proj.Likes.Count</label>
             <a href="~/Project/CurrentProjectPage/@proj.ProjectID">Перейти</a>
         </div>
     }

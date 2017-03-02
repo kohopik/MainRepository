@@ -42,7 +42,8 @@ namespace IndieProjects
 
             services.AddDbContext<IndieProjects.Model.IndieContext>(options =>
                             options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-
+            services.AddSignalR();
+            
             services.AddIdentity<User, IdentityRole>()
                .AddEntityFrameworkStores<IndieContext>();
             services.AddMvc();
@@ -78,6 +79,9 @@ namespace IndieProjects
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            app.UseSignalR();
+           
 
             app.UseMvc(routes =>
             {

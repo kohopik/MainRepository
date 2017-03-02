@@ -83,9 +83,7 @@
         background-color: transparent;
     }
 }
-#aboutuser{
-    margin-top:9px;
-}
+
 #MainBlock{ 
 margin-top: 60px;
 background-color:white;
@@ -109,13 +107,24 @@ body {
     background-color:darkgray;
     min-height:100vh;
     height:100vh;
-}
+}   
 
 #divWithImg img
 {
     max-height: 100%;
     max-width: 100%;
     vertical-align: middle;
+}
+
+span.input-group-addon i {
+    color: #009edf;
+    font-size: 17px;
+}
+
+.input-group {
+    -webkit-box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.21)!important;
+    -moz-box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.21)!important;
+    box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.21)!important;
 }
 
 .container{
@@ -266,22 +275,50 @@ body {
  position: relative;
  overflow: hidden;
  margin-top:20px;
+ box-shadow: 0 0 5px rgba(0,0,0,0.3);
+ margin-left: 0px !important;
+ font-family: 'XXII Centar';
+ color: #ACB3C8 ;
+ font-size: 18px;
+ font: bold;
+ margin-bottom:-18px !important;
+}
+.box #shadow{
+
+}
+.box:hover{
 }
 .box .pic img{
  width: 100%;
- height: auto;
+ height: 180px;
 }
-
-.pic
+.box a{
+    color: #777777;
+}
+.box .pull-right{
+    padding-right: 7px;
+}
+.box .pic
 {
-  box-shadow: 0 0 3px #808080;
+  margin-left: 0px;
+    margin-right: 0px;
 }
 .pic:after{
+    content: '';
+    background-color: #041600;
+    opacity: 0.05;
  position: absolute;
  top: 0;
  left: 0;
  width: 100%;
- height: 100%;
+ height: 180px;
+ transition: opacity 0.3s;
+}
+.pic:hover:after{
+    opacity: 0.6;
+}
+.box:hover a, .box:hover{
+    color: #27551C;
 }
 .box .social-links{
  width: 100%;
@@ -612,6 +649,8 @@ body {
 .message-input {
   height: 90px !important;
 }
+
+
 .chat-avatar {
   white: 36px;
   height: 36px;
@@ -651,7 +690,7 @@ body {
   height: 48px;
   width: 48px;
   border: 1px solid #e7eaec;
-  border-radius: 4px;
+  border-radius: 120px;
   margin-top: 1px;
 }
 .chat-discussion .chat-message.left .message-avatar {
@@ -691,6 +730,7 @@ body {
 }
 .message-content {
   display: block;
+  height:100%;  
 }
 .chat-discussion {
   background: #eee;
@@ -705,6 +745,12 @@ body {
 .chat-message-form .form-group {
   margin-bottom: 0;
 }
+
+.form-group #SendMessage{
+    margin-right: 0;
+    position:fixed  ;
+}
+
 .ibox {
   clear: both;
   margin-bottom: 25px;
@@ -755,7 +801,9 @@ body {
   background: #ffffff;
   padding: 10px 15px;
 }
-
+#aboutuser{
+    margin-top:9px;
+}
 .message-input {
     height: 90px !important;
 }
@@ -770,4 +818,57 @@ body {
     transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
     width: 100%;
     font-size: 14px;
+}
+/*.row.no-gutter > [class*="col-"], no-gutter > [class*="col-"]{
+    padding-right: 0px !important;
+    padding-left: 0px !important;
+}
+.row, .no-gutter {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}*/
+.col-md-4{
+    padding-left: 0px !important;
+    padding-right: 2px !important;
+}
+.raitings{
+    font-family: 'XXII Centar';
+    margin-top: 20px;
+    border: 3px #5AC539 solid;
+    margin-right:10px;
+    height:430px;
+    border-top-right-radius: 20px;
+}
+.raitings h3{
+    margin-top: 10px;
+    padding-left:10px;
+    color: #777;
+}
+.raitings h3::after{
+    border-bottom: 2px #5AC539 solid;
+}
+.raitings ol{
+    font-size: 18px;
+    color: #777;
+    line-height: 2;
+    list-style: none;
+}
+.raiting ol li{
+    display:block;
+    padding-bottom:20px;
+}
+.raitings ol li a{
+    width: 100%;
+    height: 100%;
+    color: #777;
+    margin-bottom:20px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    -webkit-transition: all 0.2s ease;
+    -moz-transition: all 0.2s ease;
+    -o-transition: all 0.7s ease;
+}
+.raitings ol li a:hover{
+    color: #456B3F;
+    font-size: 24px;
 }

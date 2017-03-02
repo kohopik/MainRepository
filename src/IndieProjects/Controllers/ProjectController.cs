@@ -11,13 +11,14 @@ using Microsoft.AspNetCore.Hosting;
 using System.IO;
 using IndieProjects.ViewModel;
 using Microsoft.EntityFrameworkCore;
-
+using IndieProjects.Help;
 
 namespace IndieProjects.Controllers
 {
     public class ProjectController : Controller
     {
         IndieContext context;
+        UserActions actions;
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         IHostingEnvironment _appEnviroment;
@@ -27,11 +28,12 @@ namespace IndieProjects.Controllers
             _userManager = userManager;
             _signInManager = signInManager;
             _appEnviroment = appEnvironment;
+            actions = new UserActions();
         }
 
         public IActionResult AllProjects()
         {
-            ViewBag.Projects = context.Projects.ToList();
+            ViewBag.Projects = context.Projects.Include(x => x.Likes).ToList();
             return View();
         }
 
@@ -46,6 +48,14 @@ namespace IndieProjects.Controllers
         }
 
         [HttpPost]
+        public async Task<string> LikeProject(int id)
+        {
+            User user = await _userManager.FindByNameAsync(User.Identity.Name);
+            int? result = await actions.AddLike(context, user, id, LikeStatus.Project);
+            return result != null ? result.ToString() : "Error";
+        }
+
+        [HttpPost]
         public async Task<IActionResult> AddProject(Project project)
         {
             User user = await _userManager.FindByNameAsync(User.Identity.Name);
@@ -56,7 +66,6 @@ namespace IndieProjects.Controllers
                 Description = project.Description,
                 StatusProject = project.StatusProject,
                 Name = project.Name,
-                Likes = 0,
                 Team = new List<DeveloperProject>(),
                 Vakancies = new List<Vakanci>()
             };
@@ -69,7 +78,7 @@ namespace IndieProjects.Controllers
             });
             Project proj = context.Projects.Where(x => x.Name == project.Name).First();
             AddAvatar(project.Avatar,proj);
-            return RedirectToAction("MyProjects","Account");
+            return RedirectToAction("MainAccountProfile","Account");
         }
 
         [HttpPost]
@@ -114,7 +123,7 @@ namespace IndieProjects.Controllers
         [HttpGet]
         public IActionResult CurrentProjectPage(int id)
         {
-            Project project = context.Projects.Where(x => x.ProjectID == id).FirstOrDefault();
+            Project project = context.Projects.Include(x => x.Likes).Where(x => x.ProjectID == id).FirstOrDefault();
             return View(project);
         }
 
@@ -147,7 +156,7 @@ namespace IndieProjects.Controllers
                 return RedirectToAction("Index", "Home");
             ProjectCommentaries newComment = new ProjectCommentaries
             {
-                Content = txt,
+                Content = "<a class=\"media-left\" href=\"/Home/CurrentUserProfile/" + SelfCommentary.Author.Id + "\"" +">" + SelfCommentary.Author.NickName + "</a>," + txt,
                 Author = user,
                 DateSend = DateTime.Now,
                 Project = SelfCommentary.Project,

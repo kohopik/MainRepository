@@ -7,15 +7,19 @@
             if (com.ParentCommentary == null)
             {
                 <div class="media-block">
-                    <a class="media-left" href="#"><img class="img-circle img-sm" src="~/@com.Author.Avatar"></a>
+                    <a class="media-left" href="/Home/CurrentUserProfile/@com.Author.Id"><img class="img-circle img-sm" src="~/@com.Author.Avatar"></a>
                     <div class="media-body">
+                        <button class="sver">Свернуть</button>
                         <div class="mar-btm">
-                            <a href="#" class="btn-link text-semibold media-heading box-inline">@com.Author.NickName</a>
+                            <a href="/Home/CurrentUserProfile/@com.Author.Id" class="btn-link text-semibold media-heading box-inline">@com.Author.NickName</a>
                             <p class="text-muted text-sm"><i class="fa fa-mobile fa-lg"></i>@com.DateSend.Date</p>
                         </div>
                         <p>@com.Content</p>
                         <div class="pad-ver">
+                            @if (User.Identity.Name != com.Author.UserName)
+                            {
                             <a class="btn btn-sm btn-default btn-hover-primary Mainanswer">Ответить</a>
+                            }
                         </div>
                         <form class="commentform" asp-action="AddSelfCommentToProject" method="post">
                             <div class="panel selfcomment">
@@ -30,20 +34,23 @@
                         </form>
                         <hr>
                         <!-- Комментарий -->
-                        <div>
+                        <div class="childComments">
                             @foreach (var self in com.ChildsCommentary)
                             {
                           <!--Блок с комментарием-->
                                 <div class="media-block">
-                                    <a class="media-left" href="#"><img class="img-circle img-sm" src="~/@self.Author.Avatar"></a>
+                                    <a class="media-left" href="/Home/CurrentUserProfile/@self.Author.Id"><img class="img-circle img-sm" src="~/@self.Author.Avatar"></a>
                                     <div class="media-body">
                                         <div class="mar-btm">
-                                            <a href="#" class="btn-link text-semibold media-heading box-inline">@self.Author.NickName</a>
+                                            <a href="/Home/CurrentUserProfile/@self.Author.Id" class="btn-link text-semibold media-heading box-inline">@self.Author.NickName</a>
                                             <p class="text-muted text-sm"><i class="fa fa-mobile fa-lg"></i>@self.DateSend</p>
                                         </div>
-                                        <p>@self.Content</p>
+                                        <p>@Html.Raw(self.Content)</p>
                                         <div class="pad-ver">
+                                            @if (User.Identity.Name != self.Author.UserName)
+                                            {
                                             <a class="btn btn-sm btn-default btn-hover-primary answer">Ответить</a>
+                                            }
                                         </div>
                                         <hr>
                                     </div>
@@ -83,4 +90,7 @@
         $('.selfcomment').hide();
         $(this).parent('.pad-ver').parent('.media-body').children('.commentform').children('.selfcomment').show();
     });
+    $('.sver').click(function () {
+        $(this).parent('.media-body').children('.childComments').stop().slideToggle();
+    })
 </script>

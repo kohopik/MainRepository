@@ -109,22 +109,53 @@ namespace IndieProjects.Controllers
                 Title = article.Title,
                 DateOfPublish = DateTime.Now,
                 Commentaries = new List<ArticleCommentaries>(),
-                Likes = 0,
                 Tags = new List<Tag>()
             };
             context.Articles.Add(_article);
-            user.Articles.Add(_article);
             await context.SaveChangesAsync();
+            user.Articles.Add(_article);
+            Article artic = context.Articles.Where(x => x.Title == article.Title).First();
+            AddArticleAvatar(article.ArticleAvatar, artic);
             return RedirectToAction("MainAccountProfile", "Account");
         }
 
         [HttpPost]
-        /// <summary>
-        /// Отправка сообщения
-        /// </summary>
-        public IActionResult SendMessage(Message mes)
+        public async void AddArticleAvatar(string Avatar, Article article)
         {
-            return View();
+            string base64 = Avatar.Remove(0, Avatar.IndexOf("base64") + 7);
+            var bytes = Convert.FromBase64String(base64);
+            MemoryStream mStream = new MemoryStream();
+            await mStream.WriteAsync(bytes, 0, Convert.ToInt32(bytes.Length));
+            string newPath = @"images/projects/" + article.ID.ToString();
+            using (MagickImage image = new MagickImage(mStream))
+            {
+                switch (image.Format)
+                {
+                    case MagickFormat.Jpeg:
+                        image.Write(_appEnviroment.WebRootPath + "\\images\\projects\\" + article.ID.ToString() + ".jpeg");
+                        newPath += ".jpeg";
+                        break;
+                    case MagickFormat.Jpg:
+                        image.Write(_appEnviroment.WebRootPath + "\\images\\projects\\" + article.ID.ToString() + ".jpg");
+                        newPath += ".jpg";
+                        break;
+                    case MagickFormat.Png:
+                        image.Write(_appEnviroment.WebRootPath + "\\images\\projects\\" + article.ID.ToString() + ".png");
+                        newPath += ".png";
+                        break;
+                    case MagickFormat.Bmp:
+                        image.Write(_appEnviroment.WebRootPath + "\\images\\projects\\" + article.ID.ToString() + ".bmp");
+                        newPath += ".bmp";
+                        break;
+                    case MagickFormat.Gif:
+                        image.Write(_appEnviroment.WebRootPath + "\\images\\projects\\" + article.ID.ToString() + ".gif");
+                        newPath += ".gif";
+                        break;
+                }
+            }
+            mStream.Dispose();
+            article.ArticleAvatar = newPath;
+            await context.SaveChangesAsync();
         }
 
         public IActionResult Notification()
@@ -223,6 +254,12 @@ namespace IndieProjects.Controllers
             return View(new LoginViewModel { ReturnUrl = returnUrl });
         }
 
+        /// <summary>
+        /// Авторизация
+        /// </summary>
+        /// <param name="Email">Почта</param>
+        /// <param name="Password">Пароль</param>
+        /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(string Email,string Password)
@@ -242,6 +279,22 @@ namespace IndieProjects.Controllers
             return View();
         }
         
+        [HttpPost]
+        public async Task<IActionResult> SendMessage(string message)
+        {
+            User current = await _userManager.FindByNameAsync(User.Identity.Name);
+            User user = await _userManager.FindByEmailAsync("kohop@yandex.ru");
+            context.Messages.Add(new Message
+            {
+                Author = current,
+                Content = message,
+                DateOfSend = DateTime.Now,
+                Getter = user.Id
+            });
+            await context.SaveChangesAsync();
+            return View();
+        }
+
         [HttpPost]
         public async Task<IActionResult> LogOff()
         {

@@ -12,10 +12,13 @@ namespace IndieProjects.Model
         {
             Tags = new List<Tag>();
             Commentaries = new List<ArticleCommentaries>();
+            Likes = new List<Like>();
         }
         public int ID { get; set; }
 
         public User Author { get; set; }
+
+        public string ArticleAvatar { get; set; }
 
         public string Title { get; set; }
 
@@ -23,7 +26,7 @@ namespace IndieProjects.Model
 
         public DateTime DateOfPublish { get; set; }
 
-        public int Likes { get; set; }
+        public List<Like> Likes { get; set; }
 
         public ICollection<ArticleCommentaries> Commentaries { get; set; }
 

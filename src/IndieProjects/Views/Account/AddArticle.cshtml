@@ -16,9 +16,10 @@
         max-height: 400px;
     }
 </style>
-
 <form id="Article" method="post" asp-controller="Account" asp-action="AddArticle">
-    <h1>Написать статью</h1>
+    <img id="avatar" src="" width="270" height="275" />
+    <input type="file" id="imgInput" title="Tag" required /><br />
+    <input id="avatarString" type="hidden" asp-for="ArticleAvatar" />
     <input id="Name" asp-for="Title" placeholder="Название" /><br />
     <h5>Описание</h5>
     <div id="toolbar">
@@ -26,24 +27,46 @@
     <div id="editor">
     </div>
     <input type="hidden" asp-for="Content" id="vasya" />
-    <input id="submit" type="submit" value="Создать статью" />
+
+    <input id="SaveDelta" type="submit" value="Создать статью" />
 </form>
 
 <script src="https://cdn.quilljs.com/1.0.0/quill.js"></script>
 <script>
+    var range;
+    var images =[];
     var toolbarOptions = [['bold', 'italic', 'underline', 'strike'],
         ['blockquote', 'code-block'][{ 'header': 1 }, { 'header': 2 }],
         [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-        [{ 'script': 'sub' }, { 'script': 'super' }],
-        [{ 'direction': 'rtl' }], [{ 'size': ['small', false, 'large', 'huge'] }],
+        [{ 'size': ['small', false, 'large', 'huge'] }],
         ['image'], [{ 'align': [] }], [{ 'font': [] }]];
         var editor = new Quill('#editor', {
-        modules: { toolbar: toolbarOptions },
+            modules: {
+                toolbar: {
+                    container: toolbarOptions,
+                }
+            },
         theme: 'snow'
         });
 
-        $('#submit').click(function () {
+        $('#SaveDelta').click(function () {
             var delta = editor.root.innerHTML;
             $('#vasya').val(delta);
-        })
+            $('#avatarString').val(localvariable);
+        });
+
+        $("#imgInput").change(function () {
+            readURL(this);
+        });
+
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#avatar').attr('src', e.target.result);
+                    localvariable = e.target.result;
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
 </script>

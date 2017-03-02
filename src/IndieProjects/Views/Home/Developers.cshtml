@@ -4,10 +4,11 @@
     @foreach (var article in Model)
     {
         <div>
+            <img src="~/@article.ArticleAvatar"/>
             <label>@article.Title</label><br />
             <label id="txt"></label><br />
             @Html.Raw(article.Content)
-            <label>@article.Likes</label>
+            <label>@article.Likes.Count</label>
             <a href="~/Home/CurrentArticle/@article.ID">Перейти</a>
         </div><br />
     }

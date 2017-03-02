@@ -19,9 +19,6 @@ namespace IndieProjects.Model
 
         public User Author { get; set; }
 
-        [ForeignKey("User")]
-        public string UserID { get; set; }
-
         public string Getter { get; set; }
 
         public MessageStatus MessageStatus { get; set; }

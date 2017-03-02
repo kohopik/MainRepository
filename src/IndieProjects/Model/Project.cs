@@ -15,6 +15,7 @@ namespace IndieProjects.Model
             Commentaries = new List<ProjectCommentaries>();
             Team = new List<DeveloperProject>();
             Vakancies = new List<Vakanci>();
+            Likes = new List<Like>();
         }
         public int ProjectID { get; set; }
 
@@ -30,7 +31,7 @@ namespace IndieProjects.Model
 
         public ICollection<ProjectCommentaries> Commentaries { get; set; }
 
-        public int Likes { get; set; }
+        public List<Like> Likes { get; set; }
 
         public User ProjectManager { get; set; }
 

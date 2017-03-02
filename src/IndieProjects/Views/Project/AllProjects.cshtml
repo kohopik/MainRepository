@@ -1,20 +1,53 @@
 ﻿@model IndieProjects.Model.Project
-
+<div class="row no-gutter">
+<div class="col-lg-9 col-md-8 col-sm-12 col-xs-12">
+    
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 col-xs-12">
         @foreach (var proj in ViewBag.Projects)
         {
                 <div class="col-md-4 col-sm-6">
                     <div class="box">
-                        <div class="pic">
-                            <img src="~/@proj.Avatar" alt="" />
-                        </div>
+                        <div id="shadow">
+                        <a href="~/Project/CurrentProjectPage/@proj.ProjectID">
+                            <div class="pic">
+                                <img src="~/@proj.Avatar" width="100" height="100" alt="~/@proj.Name" />
+                            </div>
+                        </a>
                         <ul class="social-links">
                             <li><a href="#" class="icon-playstation"></a></li>
                             <li><a href="#" class="icon-steam"></a></li>
-                            <li><a href="#" class="fa fa-twitter"></a></li>
+                            <li><a href="#" class="fa fa-user"></a></li>
                         </ul>
-                        <i class="icon-glass"></i>
+                        <form asp-controller="Project" asp-action="LikeProject" method="post">
+                            <input type="hidden" name="id" value="@proj.ProjectID" />
                             <a class="Name" href="~/Project/CurrentProjectPage/@proj.ProjectID">@proj.Name</a>
-                            <a class="Likes">Понравилось</a>
+                            <text class="pull-right">@proj.Likes.Count</text>
+                        </form>
                     </div>
                 </div>
+                    </div>
         }
+</div>
+    <div class="col-lg-3 col-md-4 hidden-sm hidden-xs">
+         <div class="raitings">
+             <h3>Топ проектов</h3>
+             <ol>
+                 <li><a href=""> Название проекта</a></li>
+                 <li><a href=""> Название проекта</a></li>
+                 <li><a href=""> Название проекта</a></li>
+                 <li><a href=""> Название проекта</a></li>
+                 <li><a href=""> Название проекта</a></li>
+                 <li><a href=""> Название проекта</a></li>
+                 <li><a href=""> Название проекта</a></li>
+                 <li><a href=""> Название проекта</a></li>
+                 <li><a href=""> Название проекта</a></li>
+                 <li><a href=""> Название проекта</a></li>
+             </ol>
+         </div>
+    </div>
+
+</div>
+<script>
+
+</script>

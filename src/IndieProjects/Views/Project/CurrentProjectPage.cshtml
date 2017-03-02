@@ -5,7 +5,13 @@
 <label id="Name">@Model.Name</label><br />
 <label id="Links"/></label><br />
 <label>Описание:</label>@Html.Raw(Model.Description)
-<label>Понравилось - @Model.Likes людям</label><br />
+    <label>
+        <a id="LikeButton" href="#" onclick="return false">
+            <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"/>
+        </a>
+        <text id="Likes">@Model.Likes.Count</text>
+    </label>
+<br />
 <label>Вакансии: </label>
         @if (Model.Vakancies != null)
         {
@@ -31,12 +37,25 @@
         </div>
     </form>
 }
+
 <div id="comments">
 
 </div>
 
 <script>
-    function show() {
+    $('#LikeButton').click(function () {
+        $.ajax({
+            url: '/Project/LikeProject/' + @Model.ProjectID,
+            contentType: 'application/html; charset=utf-8',
+            type: 'Post',
+            dataType: 'html',
+            success: function (result) {
+                $('#Likes').html(result);
+            }
+        })
+    });
+
+    $(document).ready(function () {
         $.ajax({
             url: '/Project/Comments/' + $('input[name="idProject"]').val(),
             contentType: 'application/html; charset=utf-8',
@@ -46,10 +65,5 @@
                 $('#comments').html(result);
             }
         });
-    }
-
-    $(document).ready(function () {
-        show();
-        setInterval('show()', 7000);
     });
 </script>

@@ -90,7 +90,9 @@
                 onSelectEnd: function(img,selection)
                 {
                     send = { Avatar: localvariable, x1: selection.x1, x2: selection.x2, y1: selection.y1, y2: selection.y2, height: $('#target').height(), width: $('#target').width() };
-                }
+                },
+                minHeight: 150, //Edit here
+                minWidth: 150   //Edit here
             });
     });
 </script>

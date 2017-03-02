@@ -1,12 +1,19 @@
 ﻿@model IndieProjects.Model.Article
 
+<img class="img-rounded img-responsive" src="~/@Model.ArticleAvatar" />
 <input type="hidden" name="idArticle" value="@Model.ID" />
 <label id="Title">@Model.Title</label><br />
 <label>Описание:</label>
 <div class="ContentDescription">
     @Html.Raw(Model.Content)
 </div>
-<label>Понравилось - @Model.Likes людям</label><br />
+<label>
+    <a id="LikeButton" href="#" onclick="return false">
+        <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true" />
+    </a>
+    <text id="Likes">@Model.Likes.Count</text>
+</label>
+<br/>
 <label>Комментарии</label>
 
 @if (User.Identity.IsAuthenticated)
@@ -29,7 +36,20 @@
 </div>
 
 <script>
-    function show() {
+
+    $('#LikeButton').click(function () {
+        $.ajax({
+            url: '/Home/LikeArticle/' + @Model.ID,
+            contentType: 'application/html; charset=utf-8',
+            type: 'Post',
+            dataType: 'html',
+            success: function (result) {
+                $('#Likes').html(result);
+            }
+        })
+    });
+
+    $(document).ready(function () {
         $.ajax({
             url: '/Home/Comments/' + $('input[name="idArticle"]').val(),
             contentType: 'application/html; charset=utf-8',
@@ -39,10 +59,5 @@
                 $('#comments').html(result);
             }
         });
-    }
-
-    $(document).ready(function () {
-        show();
-        setInterval('show()', 10000);
     });
 </script>

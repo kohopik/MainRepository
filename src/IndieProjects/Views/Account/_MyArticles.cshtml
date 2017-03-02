@@ -7,94 +7,15 @@
         @foreach (var article in Model)
         {
             <div class="col-sm-4">
+                <a href="#" class="image-popup" title="Screenshot-2">
+                    <img src="~/@article.ArticleAvatar" class="thumb-img" alt="work-thumbnail">
+                </a>
                 <h4 class="text-center">@article.Title</h4><br />
                 <label id="txt"></label><br />
                 <div class="ga-border"></div>
-                <label>@article.Likes</label>
+                <label>@article.Likes.Count</label>
                 <a class="pull-right" href="~/Home/CurrentArticle/@article.ID">Перейти</a>
             </div>
-            <div class="col-sm-4">
-                <h4 class="text-center">@article.Title</h4><br />
-                <label id="txt"></label><br />
-                <div class="ga-border"></div>
-                <label>@article.Likes</label>
-                <a class="pull-right" href="~/Home/CurrentArticle/@article.ID">Перейти</a>
-            </div>
-            <div class="col-sm-4">
-                <h4 class="text-center">@article.Title</h4><br />
-                <label id="txt"></label><br />
-                <div class="ga-border"></div>
-                <label>@article.Likes</label>
-                <a class="pull-right" href="~/Home/CurrentArticle/@article.ID">Перейти</a>
-            </div>
-            <br />
         }
-    </div>
-</div>
-<div class="row">
-    <div class="col-sm-4">
-        <div class="gal-detail thumb">
-            <a href="#" class="image-popup" title="Screenshot-2">
-                <img src="http://lorempixel.com/400/300/nature/1" class="thumb-img" alt="work-thumbnail">
-            </a>
-            <h4 class="text-center">Gallary Image</h4>
-            <div class="ga-border"></div>
-            <p class="text-muted text-center"><small>Photography</small></p>
-        </div>
-    </div>
-
-    <div class="col-sm-4">
-        <div class="gal-detail thumb">
-            <a href="#" class="image-popup" title="Screenshot-2">
-                <img src="http://lorempixel.com/400/300/nature/2" class="thumb-img" alt="work-thumbnail">
-            </a>
-            <h4 class="text-center">Gallary Image</h4>
-            <div class="ga-border"></div>
-            <p class="text-muted text-center"><small>Photography</small></p>
-        </div>
-    </div>
-
-    <div class="col-sm-4">
-        <div class="gal-detail thumb">
-            <a href="#" class="image-popup" title="Screenshot-2">
-                <img src="http://lorempixel.com/400/300/nature/3" class="thumb-img" alt="work-thumbnail">
-            </a>
-            <h4 class="text-center">Gallary Image</h4>
-            <div class="ga-border"></div>
-            <p class="text-muted text-center"><small>Photography</small></p>
-        </div>
-    </div>
-
-    <div class="col-sm-4">
-        <div class="gal-detail thumb">
-            <a href="#" class="image-popup" title="Screenshot-2">
-                <img src="http://lorempixel.com/400/300/nature/4" class="thumb-img" alt="work-thumbnail">
-            </a>
-            <h4 class="text-center">Gallary Image</h4>
-            <div class="ga-border"></div>
-            <p class="text-muted text-center"><small>Photography</small></p>
-        </div>
-    </div>
-
-    <div class="col-sm-4">
-        <div class="gal-detail thumb">
-            <a href="#" class="image-popup" title="Screenshot-2">
-                <img src="http://lorempixel.com/400/300/nature/5" class="thumb-img" alt="work-thumbnail">
-            </a>
-            <h4 class="text-center">Gallary Image</h4>
-            <div class="ga-border"></div>
-            <p class="text-muted text-center"><small>Photography</small></p>
-        </div>
-    </div>
-
-    <div class="col-sm-4">
-        <div class="gal-detail thumb">
-            <a href="#" class="image-popup" title="Screenshot-2">
-                <img src="http://lorempixel.com/400/300/nature/6" class="thumb-img" alt="work-thumbnail">
-            </a>
-            <h4 class="text-center">Gallary Image</h4>
-            <div class="ga-border"></div>
-            <p class="text-muted text-center"><small>Photography</small></p>
-        </div>
     </div>
 </div>

@@ -4,6 +4,7 @@
       "version": "1.0.1",
       "type": "platform"
     },
+    "Microsoft.AspNetCore.WebSockets": "0.2.0-*",
     "Microsoft.ApplicationInsights.AspNetCore": "1.0.0",
     "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "1.0.0",
     "Microsoft.AspNetCore.Diagnostics": "1.0.0",
@@ -19,7 +20,7 @@
     "Microsoft.AspNetCore.StaticFiles": "1.0.0",
     "Microsoft.Extensions.Configuration.EnvironmentVariables": "1.0.0",
     "Microsoft.Extensions.Configuration.Json": "1.0.0",
-    "Microsoft.Extensions.Logging": "1.0.0",
+    "Microsoft.Extensions.Logging": "1.0.1",
     "Microsoft.Extensions.Logging.Console": "1.0.0",
     "Microsoft.Extensions.Logging.Debug": "1.0.0",
     "Microsoft.Extensions.Options.ConfigurationExtensions": "1.0.0",
@@ -28,7 +29,9 @@
     "Microsoft.EntityFrameworkCore.SqlServer": "1.0.0",
     "jQuery": "3.1.1",
     "Newtonsoft.Json": "9.0.1",
-    "Magick.NET.Core-Q8": "7.0.4.701"  },
+    "Magick.NET.Core-Q8": "7.0.4.701",
+    "Microsoft.AspNetCore.SignalR.Server": "0.2.0-preview2-22683"
+  },
 
   "tools": {
     "BundlerMinifier.Core": "2.0.238",

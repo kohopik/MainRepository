@@ -16,6 +16,8 @@ namespace IndieProjects.Model
 
         public DbSet<ArticleCommentaries> ArticleCommentaries { get; set; }
 
+        public DbSet<Like> Likes { get; set; }
+
         public DbSet<Tag> Tags { get; set; }
 
         public DbSet<ProjectCommentaries> ProjectCommentaries { get; set; }
